@@ -201,7 +201,7 @@ void ObtainedWebGpuDevice(WGpuDevice result, void *userData)
  "   }"
  "   let _e257 = d;"
  "   return _e257;"
-"}
+"}"
 
 "fn calcNormal(p_4: vec3<f32>) -> vec3<f32> {"
 "    var p_5: vec3<f32>;"
