@@ -145,8 +145,8 @@ stageDesc.constants=NULL;
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
 WGpuDeviceDescriptor deviceDesc={};
-wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
-// wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
+// wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
+wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
 // wgpu_adapter_request_device_sync(adapter,&deviceDesc);
 // wgpu_adapter_request_device_sync_simple(adapter);
 	// ObtainedWebGpuDevice();
@@ -154,9 +154,9 @@ wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
 
 int main(void){
 WGpuRequestAdapterOptions options={};
-// options.powerPreference=WGPU_POWER_PREFERENCE_LOW_POWER;
+options.powerPreference=WGPU_POWER_PREFERENCE_HIGH_PERFORMANCE;
 // navigator_gpu_request_adapter_sync_simple();
-navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
-// navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
+// navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
 
 }
