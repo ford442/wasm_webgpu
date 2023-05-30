@@ -104,7 +104,6 @@ return; // Render just one frame, static content
 
 void ObtainedWebGpuDevice(WGpuDevice result,void *userData){
 device=result;
-
 //   canvasContext = wgpu_canvas_get_webgpu_context("canvas");
  //  WGpuCanvasConfiguration config = WGPU_CANVAS_CONFIGURATION_DEFAULT_INITIALIZER;
 //   config.device = device;
@@ -112,7 +111,6 @@ device=result;
 //   wgpu_canvas_context_configure(canvasContext, &config);
 raf(device);
 }
-
 
 // shaderModuleDescriptor.code=computeShader;
 
@@ -152,8 +150,8 @@ stageDesc.constants=NULL;
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
 WGpuDeviceDescriptor deviceDesc={};
-wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
-// wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
+// wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
+wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
 // wgpu_adapter_request_device_sync(adapter,&deviceDesc);
 // wgpu_adapter_request_device_sync_simple(adapter);
 	// ObtainedWebGpuDevice();
