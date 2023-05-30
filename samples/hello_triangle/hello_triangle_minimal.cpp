@@ -61,7 +61,8 @@ uint32_t invocationCount = bufferSize / sizeof(float);
 uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
-pass.dispatchWorkgroups(workgroupCount, 1, 1);
+wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
+// pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
