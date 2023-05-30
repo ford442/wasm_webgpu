@@ -53,6 +53,7 @@ WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
+std::cout << "writing input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
@@ -66,12 +67,16 @@ uint32_t invocationCount = bufferSize / sizeof(float);
 uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
+std::cout << "dispatch workgropups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
+std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
+	
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
