@@ -66,7 +66,7 @@ computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLay
 	std::cout << "creating encoder" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
-WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,computePassDescriptor);
 
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
@@ -76,6 +76,9 @@ uint32_t invocationCount = bufferSize / sizeof(float);
 uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
+	
+std::cout << "mapBuffer:\n" << input[i] << std::endl;
+std::cout << mapBuffer << input[i] << std::endl;
 std::cout << "dispatch workgropups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
@@ -84,15 +87,15 @@ wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
-std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
-wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
+	
+// std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
+// wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 	
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
 for(int i=0;i<input.size();++i){
-std::cout << "input" << input[i] << std::endl;
-std::cout << mapBuffer << input[i] << std::endl;
+
 // mapBuffer.unmap();
 }
 // done=true;
