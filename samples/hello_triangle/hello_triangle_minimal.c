@@ -1,4 +1,5 @@
 #include "lib_webgpu.h"
+#include <vector>
 
 WGpuAdapter adapter;
 // WGpuCanvasContext canvasContext;
