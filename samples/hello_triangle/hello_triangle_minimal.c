@@ -44,7 +44,7 @@ const char *computeShader =
 "@compute @workgroup_size(32)"
 "fn computeStuff(@builtin(global_invocation_id) id: vec3<u32>) {"
     // Apply the function f to the buffer element at index id.x:
-"outputBuffer[id.x] = f(inputBuffer[id.x]);
+"outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
 WGpuShaderModuleDescriptor shaderModuleDesc={};
