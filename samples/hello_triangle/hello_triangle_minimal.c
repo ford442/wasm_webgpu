@@ -14,7 +14,7 @@ WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 //   WGpuRenderPassDescriptor passDesc = {};
 WGpuComputePassDescriptor computePassDescriptor={};
  	computePassDescriptor.timestampWriteCount = 0;
-	computePassDescriptor.timestampWrites = nullptr;
+	computePassDescriptor.timestampWrites = NULL;
 //   passDesc.numColorAttachments = 1;
 //   passDesc.colorAttachments = &colorAttachment;
  //  WGpuRenderPassEncoder pass = wgpu_command_encoder_begin_render_pass(encoder, &passDesc);
@@ -22,7 +22,7 @@ WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&com
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
 //    wgpu_render_pass_encoder_end(pass);
-uint32_t invocationCount = m_bufferSize / sizeof(float);
+uint32_t invocationCount = bufferSize / sizeof(float);
 uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
@@ -62,9 +62,9 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
  
-WgpuBuffer inputBuffer=nullptr;
-WgpuBuffer outputBuffer=nullptr;
-WgpuBuffer mapBuffer=nullptr;
+WgpuBuffer inputBuffer=NULL;
+WgpuBuffer outputBuffer=NULL;
+WgpuBuffer mapBuffer=NULL;
 
 uint_t bufferSize = 64 * sizeof(float);
 
