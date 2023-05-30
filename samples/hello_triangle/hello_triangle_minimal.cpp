@@ -53,7 +53,6 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
 WgpuBuffer mapBuffer=device.createBuffer(bufferDescriptor);
 queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
 	
-	
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
@@ -63,7 +62,7 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 pass.dispatchWorkgroups(workgroupCount, 1, 1);
-pass.end();
+// pass.end();
 encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
@@ -74,7 +73,7 @@ const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
 for(int i=0;i<input.size();++i){
 std::cout << "input " << input[i] << " became " << output[i] << std::endl;
 }
-mapBuffer.unmap();
+// mapBuffer.unmap();
 }
 done=true;
 });
