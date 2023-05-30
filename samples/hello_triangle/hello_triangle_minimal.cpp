@@ -7,16 +7,13 @@ WGpuAdapter adapter;
 WGpuDevice device;
 WGpuQueue queue;
 // WGpuRenderPipeline renderPipeline;
-WGpuComputePipeline computePipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
 
 int bufferSize = 64 * sizeof(float);
 
 std::vector<float>input(bufferSize/sizeof(float));
-for(int i=0;i<input.size();++i){
-input[i]=0.1f*i;
-}
+
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
@@ -52,6 +49,9 @@ WGpuBuffer outputBuffer;// =device.createBuffer(bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
 WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
 // queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
+for(int i=0;i<input.size();++i){
+input[i]=0.1f*i;
+}
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
@@ -64,7 +64,7 @@ uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
-encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+// encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 // bool done=false;
@@ -90,9 +90,9 @@ queue=wgpu_device_get_queue(device);
 //   wgpu_canvas_context_configure(canvasContext, &config);
 }
 
-WGpuShaderModuleDescriptor shaderModuleDescriptor={
-code=computeShader;
-};
+WGpuShaderModuleDescriptor shaderModuleDescriptor={};
+shaderModuleDescriptor->code=computeShader;
+
 
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
@@ -126,7 +126,7 @@ stageDesc.constants=NULL;
 // int numConstants);
 
 const char * Entry="computeStuff";
-computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
+WGpuComputePipeline computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
 //   emscripten_set_main_loop(raf,0);
 raf();
 
