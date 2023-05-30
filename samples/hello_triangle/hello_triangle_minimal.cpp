@@ -69,7 +69,7 @@ std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,computePassDescriptor);
 
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
-wgpu_compute_pass_encoder_set_pipeline(computePass,&computePipeline);
+wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
 //    wgpu_render_pass_encoder_end(pass);
 uint32_t invocationCount = bufferSize / sizeof(float);
