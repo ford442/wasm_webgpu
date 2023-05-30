@@ -53,7 +53,7 @@ shaderModuleDesc.code=computeShader;
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDesc);
-WGPUProgrammableStageDescriptor stageDesc{};
+WGPUProgrammableStageDescriptor stageDesc={};
 stageDesc.module=cs;
 stageDesc.entryPoint="computeStuff";
 stageDesc.constantCount=0;
