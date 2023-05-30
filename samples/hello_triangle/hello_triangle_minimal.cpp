@@ -99,6 +99,7 @@ queue=wgpu_device_get_queue(device);
 //   config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
+raf();
 }
 
 
@@ -140,8 +141,8 @@ stageDesc.constants=NULL;
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
 WGpuDeviceDescriptor deviceDesc={};
-// wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
-wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
+wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
+// wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
 // wgpu_adapter_request_device_sync(adapter,&deviceDesc);
 // wgpu_adapter_request_device_sync_simple(adapter);
 	// ObtainedWebGpuDevice();
@@ -151,7 +152,7 @@ int main(void){
 WGpuRequestAdapterOptions options={};
 // options.powerPreference=WGPU_POWER_PREFERENCE_LOW_POWER;
 // navigator_gpu_request_adapter_sync_simple();
-// navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
-navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
-raf();
+navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+// navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
+
 }
