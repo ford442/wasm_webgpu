@@ -106,7 +106,6 @@ target_link_options(hello_triangle_minimal PRIVATE "-sASYNCIFY_IMPORTS=['navigat
 
 # Currently ASYNCIFY does not support MINIMAL_RUNTIME, so have to disable it for this example.
 target_link_options(hello_triangle_minimal PRIVATE "-sMINIMAL_RUNTIME=0")
-target_link_options(hello_triangle_minimal PRIVATE "-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=$debugDir")
 target_link_options(hello_triangle_minimal PRIVATE "--shell-file=${EMSCRIPTEN_ROOT_PATH}/src/shell.html")
 
 add_executable(hello_triangle_verbose hello_triangle/hello_triangle_verbose.c)
