@@ -31,6 +31,7 @@ const char *computeShader =
 void raf(){
 	std::cout << "beginning compute commands" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
+	std::cout << "created encoder" << std::endl;
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
