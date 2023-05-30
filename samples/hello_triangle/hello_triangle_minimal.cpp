@@ -55,8 +55,8 @@ WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
-std::cout << "writing input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+std::cout << "skipping input buffer" << std::endl;
+// wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
