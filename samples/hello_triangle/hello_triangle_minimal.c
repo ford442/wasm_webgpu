@@ -42,7 +42,7 @@ queue=wgpu_device_get_queue(device);
 //   config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
-std::vector<float>input(m_bufferSize/sizeof(float));
+std::vector<float>input(bufferSize/sizeof(float));
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
