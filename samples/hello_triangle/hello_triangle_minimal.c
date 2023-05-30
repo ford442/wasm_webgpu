@@ -81,7 +81,7 @@ stageDesc.constants=NULL;
 // int numConstants);
 
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
-WGpuBindGroupLayout bindGroupLayout;
+WGpuBindGroupLayout bindGroupLayout=0;
 
 const char * Entry="computeStuff";
 computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
