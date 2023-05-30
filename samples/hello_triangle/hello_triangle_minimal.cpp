@@ -29,9 +29,10 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-	std::cout << "beginning compute commands" << std::endl;
+queue=wgpu_device_get_queue(device);
+std::cout << "beginning compute commands" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
-	std::cout << "created encoder" << std::endl;
+std::cout << "created encoder" << std::endl;
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
@@ -97,7 +98,7 @@ return; // Render just one frame, static content
 
 void ObtainedWebGpuDevice(WGpuDevice result,void *userData){
 device=result;
-queue=wgpu_device_get_queue(device);
+
 //   canvasContext = wgpu_canvas_get_webgpu_context("canvas");
  //  WGpuCanvasConfiguration config = WGPU_CANVAS_CONFIGURATION_DEFAULT_INITIALIZER;
 //   config.device = device;
