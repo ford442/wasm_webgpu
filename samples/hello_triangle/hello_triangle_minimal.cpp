@@ -135,9 +135,10 @@ void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
 WGpuDeviceDescriptor deviceDesc={};
 // wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
-wgpu_adapter_request_device_sync(adapter,&deviceDesc);
+wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
+// wgpu_adapter_request_device_sync(adapter,&deviceDesc);
 // wgpu_adapter_request_device_sync_simple(adapter);
-	ObtainedWebGpuDevice();
+	// ObtainedWebGpuDevice();
 }
 
 int main(void){
