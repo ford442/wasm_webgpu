@@ -150,6 +150,8 @@ wgpu_adapter_request_device_async_simple(adapter,ObtainedWebGpuDevice);
 int main(void){
 WGpuRequestAdapterOptions options={};
 // options.powerPreference=WGPU_POWER_PREFERENCE_LOW_POWER;
-navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
-	raf();
+// navigator_gpu_request_adapter_sync_simple();
+// navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
+raf();
 }
