@@ -69,7 +69,7 @@ wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
-WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
+WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(CommandBufferDescriptor{});
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
