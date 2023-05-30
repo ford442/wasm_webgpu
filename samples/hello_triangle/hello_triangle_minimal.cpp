@@ -46,13 +46,13 @@ WGpuBufferDescriptor bufferDescriptor={};
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
-WGpuBuffer inputBuffer=device.createBuffer(bufferDescriptor);
+WGpuBuffer inputBuffer;// =device.createBuffer(bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
-WGpuBuffer outputBuffer=device.createBuffer(bufferDescriptor);
+WGpuBuffer outputBuffer;// =device.createBuffer(bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
-WGpuBuffer mapBuffer=device.createBuffer(bufferDescriptor);
-queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
-	
+WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
+// queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
