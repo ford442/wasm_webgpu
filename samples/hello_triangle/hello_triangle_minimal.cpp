@@ -15,7 +15,6 @@ int bufferSize = 64 * sizeof(float);
 
 std::vector<float>input(bufferSize/sizeof(float));
 
-
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
@@ -29,7 +28,7 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
-EM_BOOL raf(double time, void *userData){
+void raf(){
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
@@ -78,7 +77,7 @@ std::cout << mapBuffer << input[i] << std::endl;
 }
 // done=true;
 // });
-return EM_FALSE; // Render just one frame, static content
+return; // Render just one frame, static content
 }
 
 void ObtainedWebGpuDevice(WGpuDevice result,void *userData){
