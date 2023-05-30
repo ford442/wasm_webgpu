@@ -60,7 +60,10 @@ stageDesc.constantCount=0;
 stageDesc.constants=NULL;
  */
 //   WGpuRenderPipelineDescriptor renderPipelineDesc = WGPU_RENDER_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
-WGpuComputePipelineDescriptor computePipelineDesc=WGPU_COMPUTE_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
+
+ //  skipped somehow
+WGpuComputePipelineDescriptor computePipelineDesc={};
+ 
 // computePipelineDesc.compute=stageDesc;
  //  renderPipelineDesc.vertex.module = vs;
 //   renderPipelineDesc.vertex.entryPoint = "main";
