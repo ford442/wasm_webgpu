@@ -77,8 +77,8 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 	
-std::cout << "mapBuffer:\n" << input[i] << std::endl;
-std::cout << mapBuffer << input[i] << std::endl;
+std::cout << "mapBuffer:\n" << std::endl;
+std::cout << mapBuffer << std::endl;
 std::cout << "dispatch workgropups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
