@@ -1,5 +1,6 @@
 #include "lib_webgpu.h"
 #include <vector>
+#include <iostream>
 
 WGpuAdapter adapter;
 // WGpuCanvasContext canvasContext;
@@ -9,9 +10,7 @@ WGpuQueue queue;
 WGpuComputePipeline computePipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
-WgpuBuffer inputBuffer=NULL;
-WgpuBuffer outputBuffer=NULL;
-WgpuBuffer mapBuffer=NULL;
+
 uint_t bufferSize = 64 * sizeof(float);
 
 std::vector<float>input(bufferSize/sizeof(float));
@@ -43,17 +42,18 @@ computePassDescriptor.timestampWrites = NULL;
 //   passDesc.numColorAttachments = 1;
 //   passDesc.colorAttachments = &colorAttachment;
  //  WGpuRenderPassEncoder pass = wgpu_command_encoder_begin_render_pass(encoder, &passDesc);
-	
 WGpuBufferDescriptor bufferDescriptor={};
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
-inputBuffer=device.createBuffer(bufferDescriptor);
-bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE |WGPU_BUFFER_USAGE_COPY_SRC;
-outputBuffer=device.createBuffer(bufferDescriptor);
+WgpuBuffer inputBuffer=device.createBuffer(bufferDescriptor);
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
+WgpuBuffer outputBuffer=device.createBuffer(bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
-mapBuffer=device.createBuffer(bufferDescriptor);
+WgpuBuffer mapBuffer=device.createBuffer(bufferDescriptor);
 queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
+	
+	
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
