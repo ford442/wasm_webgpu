@@ -6,7 +6,6 @@
 WGpuAdapter adapter;
 // WGpuCanvasContext canvasContext;
 WGpuDevice device;
-WGpuQueue queue;
 // WGpuRenderPipeline renderPipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
@@ -30,7 +29,7 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-queue=wgpu_device_get_queue(device);
+WGpuQueue queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
