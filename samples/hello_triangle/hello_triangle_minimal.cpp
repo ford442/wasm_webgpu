@@ -57,11 +57,7 @@ input[i]=0.1f*i;
 }
 std::cout << "writing input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-std::cout << "creating encoder" << std::endl;
-WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
-std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
-WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
+
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 const char * Entry="computeStuff";
@@ -80,6 +76,11 @@ wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+	std::cout << "creating encoder" << std::endl;
+WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
+std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
+WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
