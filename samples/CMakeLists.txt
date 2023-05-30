@@ -96,7 +96,7 @@ target_link_options(clear_screen_sync PRIVATE "-sASYNCIFY_IMPORTS=['navigator_gp
 target_link_options(clear_screen_sync PRIVATE "-sMINIMAL_RUNTIME=0")
 target_link_options(clear_screen_sync PRIVATE "--shell-file=${EMSCRIPTEN_ROOT_PATH}/src/shell.html")
 
-add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.c)
+add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.cpp)
 target_link_libraries(hello_triangle_minimal webgpu)
 
 add_executable(hello_triangle_verbose hello_triangle/hello_triangle_verbose.c)
