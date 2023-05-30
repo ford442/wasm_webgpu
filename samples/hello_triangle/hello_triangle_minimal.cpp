@@ -89,11 +89,11 @@ queue=wgpu_device_get_queue(device);
 //   wgpu_canvas_context_configure(canvasContext, &config);
 }
 
-WGpuShaderModuleDescriptor shaderModuleDesc={};
-shaderModuleDesc.code=computeShader;
+WGpuShaderModuleDescriptor shaderModuleDescriptor={};
+shaderModuleDescriptor.code=computeShader;
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
-WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDesc);
+WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 /*
 WGpuProgrammableStageDescriptor stageDesc{};
 stageDesc.module=cs;
