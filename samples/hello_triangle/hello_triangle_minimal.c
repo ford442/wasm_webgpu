@@ -60,10 +60,8 @@ stageDesc.constantCount=0;
 stageDesc.constants=NULL;
  */
 //   WGpuRenderPipelineDescriptor renderPipelineDesc = WGPU_RENDER_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
-
  //  skipped somehow
 // WGpuComputePipelineDescriptor computePipelineDesc={};
- 
 // computePipelineDesc.compute=stageDesc;
  //  renderPipelineDesc.vertex.module = vs;
 //   renderPipelineDesc.vertex.entryPoint = "main";
@@ -73,7 +71,20 @@ stageDesc.constants=NULL;
  //  colorTarget.format = config.format;
  //  renderPipelineDesc.fragment.numTargets = 1;
 //   renderPipelineDesc.fragment.targets = &colorTarget;
-computePipeline=wgpu_device_create_compute_pipeline(device,&cs);
+ 
+// wgpu_device_create_compute_pipeline(
+// WGpuDevice device,
+// WGpuShaderModule computeModule, 
+// const char *entryPoint NOTNULL,
+// WGpuPipelineLayout layout,
+// const WGpuPipelineConstant *constants,
+// int numConstants);
+
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
+WGpuBindGroupLayout bindGroupLayout;
+
+const char * Entry="computeStuff";
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
 //   emscripten_request_animation_frame_loop(raf,0);
 }
 
