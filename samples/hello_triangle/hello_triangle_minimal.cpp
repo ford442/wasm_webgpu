@@ -156,7 +156,7 @@ int main(void){
 WGpuRequestAdapterOptions options={};
 options.powerPreference=WGPU_POWER_PREFERENCE_HIGH_PERFORMANCE;
 // navigator_gpu_request_adapter_sync_simple();
-// navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
-navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
+navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+// navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
 
 }
