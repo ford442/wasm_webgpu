@@ -13,7 +13,6 @@ WGpuComputePipeline computePipeline;
 
 int bufferSize = 64 * sizeof(float);
 
-std::vector<float>input(bufferSize/sizeof(float));
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
@@ -31,6 +30,7 @@ const char *computeShader =
 void raf(WGpuDevice device){
 WGpuQueue queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
+std::vector<float>input(bufferSize/sizeof(float));
 
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
