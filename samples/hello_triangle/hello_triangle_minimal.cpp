@@ -57,7 +57,7 @@ input[i]=0.1f*i;
 }
 std::cout << "writing input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-
+WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 const char * Entry="computeStuff";
@@ -67,7 +67,7 @@ computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLay
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
+
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
