@@ -127,9 +127,6 @@ stageDesc.constants=NULL;
 const char * Entry="computeStuff";
 computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
 //   emscripten_set_main_loop(raf,0);
-raf();
-
-}
 
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
@@ -141,4 +138,5 @@ int main(void){
 WGpuRequestAdapterOptions options={};
 // options.powerPreference=WGPU_POWER_PREFERENCE_LOW_POWER;
 navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+	raf();
 }
