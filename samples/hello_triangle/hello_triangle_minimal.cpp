@@ -11,7 +11,7 @@ WGpuComputePipeline computePipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
 
-uint_t bufferSize = 64 * sizeof(float);
+int bufferSize = 64 * sizeof(float);
 
 std::vector<float>input(bufferSize/sizeof(float));
 for(int i=0;i<input.size();++i){
