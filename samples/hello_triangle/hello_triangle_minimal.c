@@ -12,14 +12,23 @@ WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
-WGpuComputePassDescriptor passDesc={};
+WGpuComputePassDescriptor computePassDescriptor={};
+ 	computePassDescriptor.timestampWriteCount = 0;
+	computePassDescriptor.timestampWrites = nullptr;
 //   passDesc.numColorAttachments = 1;
 //   passDesc.colorAttachments = &colorAttachment;
  //  WGpuRenderPassEncoder pass = wgpu_command_encoder_begin_render_pass(encoder, &passDesc);
-WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&passDesc);
-wgpu_render_pass_encoder_set_pipeline(pass,computePipeline);
+WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
 //    wgpu_render_pass_encoder_end(pass);
+uint32_t invocationCount = m_bufferSize / sizeof(float);
+uint32_t workgroupSize = 32;
+	// This ceils invocationCount / workgroupSize
+uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
+pass.dispatchWorkgroups(workgroupCount, 1, 1);
+pass.end();
+encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 return EM_FALSE; // Render just one frame, static content
@@ -33,6 +42,12 @@ queue=wgpu_device_get_queue(device);
 //   config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
+std::vector<float>input(m_bufferSize/sizeof(float));
+for(int i=0;i<input.size();++i){
+input[i]=0.1f*i;
+}
+
+queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
@@ -46,6 +61,22 @@ const char *computeShader =
     // Apply the function f to the buffer element at index id.x:
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
+ 
+WgpuBuffer inputBuffer=nullptr;
+WgpuBuffer outputBuffer=nullptr;
+WgpuBuffer mapBuffer=nullptr;
+
+uint_t bufferSize = 64 * sizeof(float);
+
+WGpuBufferDescriptor bufferDescriptor={};
+bufferDescriptor.mappedAtCreation=false;
+bufferDescriptor.size=bufferSize;
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
+inputBuffer=device.createBuffer(bufferDescriptor);
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE |WGPU_BUFFER_USAGE_COPY_SRC;
+outputBuffer=device.createBuffer(bufferDescriptor);
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
+mapBuffer=device.createBuffer(bufferDescriptor);
 
 WGpuShaderModuleDescriptor shaderModuleDesc={};
 shaderModuleDesc.code=computeShader;
