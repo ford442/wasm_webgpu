@@ -75,7 +75,7 @@ wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
 for(int i=0;i<input.size();++i){
-std::cout << "input " << input[i] << std::endl;
+std::cout << "input" << input[i] << std::endl;
 std::cout << mapBuffer << input[i] << std::endl;
 // mapBuffer.unmap();
 }
@@ -133,7 +133,10 @@ stageDesc.constants=NULL;
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
 WGpuDeviceDescriptor deviceDesc={};
-wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
+// wgpu_adapter_request_device_async(adapter,&deviceDesc,ObtainedWebGpuDevice,0);
+wgpu_adapter_request_device_sync(adapter,&deviceDesc);
+// wgpu_adapter_request_device_sync_simple(adapter);
+	ObtainedWebGpuDevice();
 }
 
 int main(void){
