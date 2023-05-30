@@ -54,6 +54,8 @@ input[i]=0.1f*i;
 }
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+	const char * Entry="computeStuff";
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
 wgpu_compute_pass_encoder_set_pipeline(pass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
 //    wgpu_render_pass_encoder_end(pass);
@@ -124,8 +126,7 @@ stageDesc.constants=NULL;
 // const WGpuPipelineConstant *constants,
 // int numConstants);
 
-const char * Entry="computeStuff";
-computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
+
 //   emscripten_set_main_loop(raf,0);
 
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
