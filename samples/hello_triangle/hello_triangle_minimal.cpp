@@ -55,8 +55,8 @@ WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
-std::cout << "skipping input buffer" << std::endl;
-// wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+std::cout << "input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
@@ -77,8 +77,8 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 	
-std::cout << "mapBuffer:\n" << std::endl;
-std::cout << mapBuffer << std::endl;
+std::cout << "inputBuffer:\n" << std::endl;
+std::cout << inputBuffer << std::endl;
 std::cout << "dispatch workgropups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
