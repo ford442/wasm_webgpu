@@ -31,8 +31,7 @@ const char *computeShader =
 void raf(WGpuDevice device){
 queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
-WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
-std::cout << "created encoder" << std::endl;
+
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
@@ -57,6 +56,8 @@ input[i]=0.1f*i;
 }
 std::cout << "writing input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+std::cout << "creating encoder" << std::endl;
+WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder pass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
