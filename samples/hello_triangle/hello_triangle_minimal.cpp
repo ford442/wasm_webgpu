@@ -28,7 +28,7 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
-void raf(){
+void raf(WGpuDevice device){
 	std::cout << "beginning compute commands" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 	std::cout << "created encoder" << std::endl;
@@ -103,7 +103,7 @@ queue=wgpu_device_get_queue(device);
 //   config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
-raf();
+raf(device);
 }
 
 
