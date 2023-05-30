@@ -53,14 +53,16 @@ shaderModuleDesc.code=computeShader;
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDesc);
-WGpuProgrammableStageDescriptor stageDesc={};
+ 
+WGpuProgrammableStageDescriptor stageDesc{};
 stageDesc.module=cs;
 stageDesc.entryPoint="computeStuff";
 stageDesc.constantCount=0;
-stageDesc.constants=nullptr;
+stageDesc.constants=NULL;
 //   WGpuRenderPipelineDescriptor renderPipelineDesc = WGPU_RENDER_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
 WGpuComputePipelineDescriptor computePipelineDesc=WGPU_COMPUTE_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
 computePipelineDesc.compute=stageDesc;
+ 
  //  renderPipelineDesc.vertex.module = vs;
 //   renderPipelineDesc.vertex.entryPoint = "main";
 //   renderPipelineDesc.fragment.module = fs;
