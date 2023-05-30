@@ -67,12 +67,10 @@ encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 bool done=false;
-auto handle=mapBuffer.mapAsync(MapMode::Read,0,bufferSize,[&](BufferMapAsyncStatus status){
-if(status==BufferMapAsyncStatus::Success){
+auto handle=mapBuffer.mapAsync(MapMode::Read,0,bufferSize){
 const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
 for(int i=0;i<input.size();++i){
 std::cout << "input " << input[i] << " became " << output[i] << std::endl;
-}
 // mapBuffer.unmap();
 }
 done=true;
