@@ -9,6 +9,7 @@ WGpuQueue queue;
 // WGpuRenderPipeline renderPipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
+WGpuComputePipeline computePipeline;
 
 int bufferSize = 64 * sizeof(float);
 
@@ -90,9 +91,8 @@ queue=wgpu_device_get_queue(device);
 //   wgpu_canvas_context_configure(canvasContext, &config);
 }
 
-WGpuShaderModuleDescriptor shaderModuleDescriptor={};
-shaderModuleDescriptor->code=computeShader;
-
+WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
+// shaderModuleDescriptor.code=computeShader;
 
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
@@ -126,7 +126,7 @@ stageDesc.constants=NULL;
 // int numConstants);
 
 const char * Entry="computeStuff";
-WGpuComputePipeline computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
 //   emscripten_set_main_loop(raf,0);
 raf();
 
