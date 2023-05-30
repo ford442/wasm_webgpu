@@ -96,6 +96,9 @@ target_link_options(clear_screen_sync PRIVATE "-sASYNCIFY_IMPORTS=['navigator_gp
 target_link_options(clear_screen_sync PRIVATE "-sMINIMAL_RUNTIME=0")
 target_link_options(clear_screen_sync PRIVATE "--shell-file=${EMSCRIPTEN_ROOT_PATH}/src/shell.html")
 
+
+add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.cpp)
+target_link_libraries(hello_triangle_minimal webgpu)
 # Enable ASYNCIFY for triangle example.
 target_link_options(hello_triangle_minimal PRIVATE "-sASYNCIFY=1")
 # Register the functions that need asyncifying. (see https://github.com/emscripten-core/emscripten/issues/15746)
@@ -104,9 +107,6 @@ target_link_options(hello_triangle_minimal PRIVATE "-sASYNCIFY_IMPORTS=['navigat
 # Currently ASYNCIFY does not support MINIMAL_RUNTIME, so have to disable it for this example.
 target_link_options(hello_triangle_minimal PRIVATE "-sMINIMAL_RUNTIME=0")
 target_link_options(hello_triangle_minimal PRIVATE "--shell-file=${EMSCRIPTEN_ROOT_PATH}/src/shell.html")
-
-add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.cpp)
-target_link_libraries(hello_triangle_minimal webgpu)
 
 add_executable(hello_triangle_verbose hello_triangle/hello_triangle_verbose.c)
 target_link_libraries(hello_triangle_verbose webgpu)
