@@ -62,7 +62,7 @@ stageDesc.constants=NULL;
 //   WGpuRenderPipelineDescriptor renderPipelineDesc = WGPU_RENDER_PIPELINE_DESCRIPTOR_DEFAULT_INITIALIZER;
 
  //  skipped somehow
-WGpuComputePipelineDescriptor computePipelineDesc={};
+// WGpuComputePipelineDescriptor computePipelineDesc={};
  
 // computePipelineDesc.compute=stageDesc;
  //  renderPipelineDesc.vertex.module = vs;
@@ -73,7 +73,7 @@ WGpuComputePipelineDescriptor computePipelineDesc={};
  //  colorTarget.format = config.format;
  //  renderPipelineDesc.fragment.numTargets = 1;
 //   renderPipelineDesc.fragment.targets = &colorTarget;
-computePipeline=wgpu_device_create_compute_pipeline(device,&computePipelineDesc);
+computePipeline=wgpu_device_create_compute_pipeline(device,&cs);
 //   emscripten_request_animation_frame_loop(raf,0);
 }
 
