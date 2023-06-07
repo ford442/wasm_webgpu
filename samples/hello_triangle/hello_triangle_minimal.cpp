@@ -121,6 +121,7 @@ std::cout << "wgpu_buffer_map_async" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
+std::cout << "test" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 double getOutput = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
 double getOutput2 = wgpu_buffer_get_mapped_range(outputBuffer,uint32_t(0),bufferSize);
