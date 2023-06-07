@@ -48,6 +48,10 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
 WGpuBuffer outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
 WGpuBuffer mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+	
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM;
+WGpuBuffer uniBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+	
 // queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
@@ -81,7 +85,7 @@ bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntr
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntry1={};
 bindGroupEntry1.binding=0;
-bindGroupEntry1.resource=inputBuffer;
+bindGroupEntry1.resource=uniBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
