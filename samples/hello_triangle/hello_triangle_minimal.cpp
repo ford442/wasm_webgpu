@@ -109,7 +109,7 @@ wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 uint32_t invocationCount=bufferSize/sizeof(float);
 uint32_t workgroupSize=32;
 queue=wgpu_device_get_queue(device);
-std::cout << "not skipping input buffer" << std::endl;
+std::cout << "filling input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount=(invocationCount+workgroupSize-1)/workgroupSize;
@@ -134,7 +134,7 @@ std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "test" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),size);
+auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),1*sizeof(float));
 std::cout << "buffer read_mapped_range" << std::endl;
 std::cout << getOutput << std::endl;
 };
