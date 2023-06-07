@@ -73,7 +73,7 @@ bindGroupEntry1.resource=uniBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
-WGpuPipelineLayout pipelineLayout=wgpu_device_create_pipeline_layout(device,bindGroupLayout);
+WGpuPipelineLayout pipelineLayout=wgpu_device_create_pipeline_layout(device,bindGroupLayout,1);
 computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
 std::cout << "creating encoder" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
