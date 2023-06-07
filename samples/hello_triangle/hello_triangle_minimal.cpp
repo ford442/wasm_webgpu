@@ -64,7 +64,7 @@ std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 std::cout << "create bindgroup layout" << std::endl;
 	WGpuBufferBindingLayout bufferBindingLayout={};
-bufferBindingLayout.type=2;
+bufferBindingLayout.type=3;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
 bindGroupLayoutEntry1.binding=0;
 bindGroupLayoutEntry1.visibility=WGPU_SHADER_STAGE_COMPUTE;
