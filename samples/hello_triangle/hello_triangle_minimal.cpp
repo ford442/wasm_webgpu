@@ -74,8 +74,9 @@ WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bi
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
 WGpuPipelineLayoutDescriptor pipelineLayoutDescriptor={};
-computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,&pipelineLayoutDescriptor,NULL,0);
-	std::cout << "creating encoder" << std::endl;
+WGpuPipelineLayout pipelineLayout=wgpu_device_create_pipeline_layout(device,pipelineLayoutDescriptor);
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
+std::cout << "creating encoder" << std::endl;
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
