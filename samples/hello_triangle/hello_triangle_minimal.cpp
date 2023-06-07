@@ -76,7 +76,7 @@ uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
 std::cout << "create bindgroup layout" << std::endl;
 WGpuBindGroupLayoutEntry bfrEntry1={};
-bindGroupLayout=wgpu_device_create_bind_group_layout(device,bfrEntry1,1);
+bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bfrEntry1,1);
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
 std::cout << "inputBuffer:\n" << std::endl;
