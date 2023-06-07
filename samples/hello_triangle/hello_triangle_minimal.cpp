@@ -14,7 +14,6 @@ WGpuBufferDescriptor bufferDescriptorO={};
 WGpuBufferDescriptor bufferDescriptorM={};
 WGpuBufferBindingLayout bufferBindingLayout1={};
 WGpuBufferBindingLayout bufferBindingLayout2={};
-WGpuBufferBindingLayout bufferBindingLayout3={};
 WGpuBuffer inputBuffer=0;
 WGpuShaderModuleDescriptor shaderModuleDescriptor={};
 WGpuBuffer outputBuffer=0;
@@ -25,8 +24,8 @@ WGpuCommandBufferDescriptor commandBufferDescriptor={};
 WGpuCommandBuffer commandBuffer=0;
 WGpuCommandEncoder encoder=0;
 WGpuComputePassEncoder computePass=0;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntries[3]={};
-WGpuBindGroupEntry bindGroupEntry[3]={};
+WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
+WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
@@ -38,6 +37,7 @@ int bufferSize = 64 * sizeof(float);
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
+"@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
@@ -75,7 +75,6 @@ cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 std::cout << "create bindgroup layout" << std::endl;
 bufferBindingLayout1.type=3;
 bufferBindingLayout2.type=2;
-bufferBindingLayout3.type=2;
 bindGroupLayoutEntries[0].binding=0;
 bindGroupLayoutEntries[0].visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntries[0].type=1;
@@ -84,11 +83,7 @@ bindGroupLayoutEntries[1].binding=1;
 bindGroupLayoutEntries[1].visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntries[1].type=1;
 bindGroupLayoutEntries[1].layout.buffer=bufferBindingLayout2;
-bindGroupLayoutEntries[2].binding=2;
-// bindGroupLayoutEntries[2].visibility=WGPU_SHADER_STAGE_COMPUTE;
-bindGroupLayoutEntries[2].type=1;
-bindGroupLayoutEntries[2].layout.buffer=bufferBindingLayout3;
-bindGroupLayout=wgpu_device_create_bind_group_layout(device,bindGroupLayoutEntries,3);
+bindGroupLayout=wgpu_device_create_bind_group_layout(device,bindGroupLayoutEntries,2);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
 pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
@@ -102,11 +97,7 @@ bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroupEntry[1].bufferBindOffset=0;
 bindGroupEntry[1].bufferBindSize=0; 
-bindGroupEntry[2].binding=2;
-bindGroupEntry[2].resource=mapBuffer;
-bindGroupEntry[2].bufferBindOffset=0;
-bindGroupEntry[2].bufferBindSize=0; 
-bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,3);
+bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
