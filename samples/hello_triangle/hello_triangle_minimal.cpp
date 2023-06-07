@@ -29,6 +29,7 @@ WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
 WGpuComputePassTimestampWrite computePassTimestampWrite={};
 WGpuQuerySetDescriptor querySetDescriptor={};
+WGpuDeviceDescriptor deviceDescriptor={};
 
 WGpuQuerySet querySet=0;
 
@@ -174,7 +175,7 @@ wgpu_device_create_compute_pipeline(WGpuDevice device,WGpuShaderModule computeMo
 
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
-WGpuDeviceDescriptor deviceDescriptor={};
+deviceDescriptor.requiredFeatures=WGPU_FEATURE_TIMESTAMP_QUERY;
 wgpu_adapter_request_device_async(adapter,&deviceDescriptor,ObtainedWebGpuDevice,0);
 }
 
