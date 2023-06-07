@@ -55,9 +55,9 @@ inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 // bufferDescriptor.mappedAtCreation=true;
-bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
 mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
-bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM;
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM|WGPU_BUFFER_USAGE_COPY_DST;
 for(int i=0;i<input.size();++i){
 input[i]=21.0021f;
 }
@@ -117,24 +117,23 @@ std::cout << "mapBuffer:" << mapBuffer << std::endl;
 std::cout << "outputBuffer:" << outputBuffer << std::endl;
 std::cout << "wgpu_encoder_end" << std::endl;
 std::cout << "wgpu_buffer_map_async" << std::endl;
-void * getOutput;
-///   wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
-// std::cout << getOutput << std::endl;
+
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
-
+std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
+void * getOutput;
+wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
+std::cout << getOutput << std::endl;
+wgpu_encoder_end(computePass);
 };
 WGPU_MAP_MODE_FLAGS mode1=0x1;
 void *userDataA;
 wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,0,bufferSize);
-wgpu_encoder_end(computePass);
 };
-
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
-
 return;
 }
 
