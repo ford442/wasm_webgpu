@@ -128,25 +128,25 @@ WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_M
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "test" << std::endl;
+std::cout << "wgpu_encoder_end" << std::endl;
+wgpu_encoder_end(computePass);
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 auto getOutput = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
 std::cout << "buffer read_mapped_range" << std::endl;
 std::cout << getOutput << std::endl;
-wgpu_encoder_end(computePass);
-};	
+};
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << "mapBuffer:" << mapBuffer << std::endl;
 std::cout << "outputBuffer:" << outputBuffer << std::endl;
 std::cout << "mapBuffer:" << mapBuffer << std::endl;
-std::cout << "wgpu_encoder_end" << std::endl;
 std::cout << "wgpu_buffer_map_async" << std::endl;
 WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
 void *userDataA;
 wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferSize);
 };
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
-// std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
-// wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
+std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
+wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 
 return;
 }
