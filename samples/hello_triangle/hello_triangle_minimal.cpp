@@ -142,9 +142,10 @@ WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_M
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
-std::cout << "buffer read_mapped_range" << std::endl;
-std::cout << getOutput << std::endl;
+auto getOutput = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
+void * readOutput;
+wgpu_buffer_read_mapped_range(buffer,0,0,readOutput,size);
+
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << "mapBuffer:" << mapBuffer << std::endl;
