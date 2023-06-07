@@ -97,7 +97,7 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 // std::cout << "at wgpu_command_encoder_finish" << std::endl;
-WGpuCommandBuffer commandBuffer=0;// =wgpu_command_encoder_finish(encoder);
+WGpuCommandBuffer commandBuffer=1;// =wgpu_command_encoder_finish(encoder);
 std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 // bool done=false;
