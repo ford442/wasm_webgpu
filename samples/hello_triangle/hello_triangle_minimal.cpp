@@ -44,13 +44,14 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
-
+WGpuComputePassTimestampWrite computePassTimestampWrite={};
 void raf(WGpuDevice device){
 queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
-// computePassDescriptor.timestampWriteCount = 0;
-computePassDescriptor.numTimestampWrites = 0;
+computePassTimestampWrite.location=0;
+computePassDescriptor.timestampWrites = &computePassTimestampWrite;
+computePassDescriptor.numTimestampWrites = 1;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
