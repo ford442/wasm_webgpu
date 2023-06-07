@@ -3,16 +3,15 @@
 #include <iostream>
 #include <assert.h>
 
-WGpuAdapter adapter;
+WGpuAdapter adapter=nullptr;
 // WGpuCanvasContext canvasContext;
-WGpuDevice device;
+WGpuDevice device=nullptr;
 // WGpuRenderPipeline renderPipeline;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry=nullptr;
 WGpuBindGroupLayout bindGroupLayout=0;
-WGpuComputePipeline computePipeline;
+WGpuComputePipeline computePipeline=nullptr;
 
 int bufferSize = 64 * sizeof(float);
-
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
@@ -31,7 +30,6 @@ void raf(WGpuDevice device){
 WGpuQueue queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
-
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
@@ -76,33 +74,26 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
-	
 std::cout << "create bindgroup layout" << std::endl;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,nullptr,0);
-
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
-
-	
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
+	
 std::cout << "dispatch workgroups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,onE,onE,onE);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
-
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
-	
 // std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
 // wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
-	
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
 // for(int i=0;i<input.size();++i){
-
 // mapBuffer.unmap();
 // }
 // done=true;
@@ -119,7 +110,6 @@ device=result;
 //   wgpu_canvas_context_configure(canvasContext, &config);
 raf(device);
 }
-
 
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
@@ -142,10 +132,7 @@ stageDesc.constants=NULL;
  //  colorTarget.format = config.format;
  //  renderPipelineDesc.fragment.numTargets = 1;
 //   renderPipelineDesc.fragment.targets = &colorTarget;
- 
 // wgpu_device_create_compute_pipeline(WGpuDevice device,WGpuShaderModule computeModule, const char *entryPoint NOTNULL,WGpuPipelineLayout layout,const WGpuPipelineConstant *constants,int numConstants);
-
-
 //   emscripten_set_main_loop(raf,0);
 
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
@@ -162,7 +149,6 @@ int main(void){
 WGpuRequestAdapterOptions options={};
 options.powerPreference=WGPU_POWER_PREFERENCE_HIGH_PERFORMANCE;
 // navigator_gpu_request_adapter_sync_simple();
-navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
-// navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
-
+// navigator_gpu_request_adapter_async(&options,ObtainedWebGpuAdapter,0);
+navigator_gpu_request_adapter_async_simple(ObtainedWebGpuAdapter);
 }
