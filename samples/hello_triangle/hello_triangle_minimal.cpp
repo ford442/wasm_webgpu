@@ -79,8 +79,9 @@ WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
 bindGroupLayoutEntry1.type=1;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
 std::cout << "create bindgroup" << std::endl;
-// WGpuBindGroupEntry bindGroupEntry1={};
-WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
+WGpuBindGroupEntry bindGroupEntry1={};
+	bindGroupEntry1.resource=inputBuffer;
+WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 
