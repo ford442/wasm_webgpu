@@ -46,7 +46,7 @@ void raf(WGpuDevice device){
 queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
-computePassDescriptor.timestampWrites = NULL;
+// computePassDescriptor.timestampWrites = NULL;
 computePassDescriptor.numTimestampWrites = 0;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
@@ -78,25 +78,20 @@ bindGroupLayoutEntries[1].visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntries[1].type=1;
 bindGroupLayoutEntries[1].layout.buffer=bufferBindingLayout2;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,bindGroupLayoutEntries,2);
-	const char * Entry="computeStuff";
+const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
 pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
 computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
-	
 std::cout << "create bindgroup" << std::endl;
 bindGroupEntry[0].binding=0;
 bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
-
-	
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
-	
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-	
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
@@ -118,20 +113,25 @@ WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData)
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << "mapBuffer:" << mapBuffer << std::endl;
 std::cout << "outputBuffer:" << outputBuffer << std::endl;
-
 std::cout << "mapBuffer:" << mapBuffer << std::endl;
 std::cout << "outputBuffer:" << outputBuffer << std::endl;
 std::cout << "wgpu_encoder_end" << std::endl;
+std::cout << "wgpu_buffer_map_async" << std::endl;
+void * getOutput;
+///   wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
+// std::cout << getOutput << std::endl;
+WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer, void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
+std::cout << "at mapCallback!" << std::endl;
+
+};
+WGPU_MAP_MODE_FLAGS mode1=0x1;
+wgpu_buffer_map_async(mapBuffer,mapCallback,void *userData,mode1,0,bufferSize);
 wgpu_encoder_end(computePass);
 };
 
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
-// std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-// void * getOutput;
-// wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
-// std::cout << getOutput << std::endl;
 
 return;
 }
