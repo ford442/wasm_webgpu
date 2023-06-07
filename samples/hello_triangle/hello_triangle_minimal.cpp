@@ -48,16 +48,16 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-std::cout << "creating querySet" << std::endl;
+std::cout << "skipping querySet" << std::endl;
 querySetDescriptor.type=NULL;
 querySetDescriptor.count=0;
-querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
-computePassTimestampWrite.querySet=querySet;
+// querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
+computePassTimestampWrite.querySet=NULL;
 computePassTimestampWrite.queryIndex=0;
 computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
 std::vector<float>input(bufferSize/sizeof(float));
-computePassDescriptor.timestampWrites=&computePassTimestampWrite;
-computePassDescriptor.numTimestampWrites=1;
+computePassDescriptor.timestampWrites=NULL;
+computePassDescriptor.numTimestampWrites=0;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
