@@ -125,10 +125,13 @@ std::cout << "test" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 double getOutput = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
 double getOutput2 = wgpu_buffer_get_mapped_range(outputBuffer,uint32_t(0),bufferSize);
+double getOutput3 = wgpu_buffer_get_mapped_range(inputBuffer,uint32_t(0),bufferSize);
 std::cout << "buffer read_mapped_range" << std::endl;
 std::cout << getOutput << std::endl;
 std::cout << "outputBuffer read_mapped_range" << std::endl;
 std::cout << getOutput2 << std::endl;
+std::cout << "inputBuffer read_mapped_range" << std::endl;
+std::cout << getOutput3 << std::endl;
 wgpu_encoder_end(computePass);
 };
 WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
