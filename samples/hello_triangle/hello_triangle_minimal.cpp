@@ -123,7 +123,7 @@ std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 void * getOutput;
-wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
+wgpu_buffer_read_mapped_range(buffer,0,0,&getOutput,bufferSize);
 std::cout << getOutput << std::endl;
 wgpu_encoder_end(computePass);
 };
