@@ -117,20 +117,20 @@ WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData)
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << mapBuffer << std::endl;
 };
-	/*
-WGpuBufferMapCallback onBuffer=[](WGpuBuffer mapBuffer,void *userData,0x1,0,bufferSize){
-std::cout << "output: "<< std::endl;
+
+WGpuBufferMapCallback onBuffer=[](WGpuBuffer buffer,void *userData,0x1,0,bufferSize){
+std::cout << "output: " << std::endl;
+std::cout <<buffer << std::endl;
 };
-const float* output=wgpu_buffer_map_async(WGpuBuffer mapBuffer,onBuffer,0,0x1,0,bufferSize);
-std::cout << output << std::endl;
-	*/
+const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,0x1,0,bufferSize);
+
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-void * getOutput[bufferSize];
+void * getOutput;
 wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
-std::cout << getOutput[0] << std::endl;
+std::cout << getOutput << std::endl;
 std::cout << " wgpu_encoder_end" << std::endl;
 wgpu_encoder_end(computePass);
 return;
