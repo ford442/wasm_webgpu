@@ -54,8 +54,8 @@ WGpuBuffer mapBuffer;// =device.createBuffer(bufferDescriptor);
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
-std::cout << "skipping input buffer" << std::endl;
-// wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+std::cout << "not skipping input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
@@ -80,9 +80,9 @@ std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 std::cout << "dispatch workgroups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
-// pass.dispatchWorkgroups(workgroupCount, 1, 1);
-// pass.end();
-// encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+pass.dispatchWorkgroups(workgroupCount, 1, 1);
+pass.end();
+encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
@@ -106,13 +106,13 @@ void ObtainedWebGpuDevice(WGpuDevice result,void *userData){
 device=result;
 //   canvasContext = wgpu_canvas_get_webgpu_context("canvas");
  //  WGpuCanvasConfiguration config = WGPU_CANVAS_CONFIGURATION_DEFAULT_INITIALIZER;
-//   config.device = device;
+config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
 raf(device);
 }
 
-// shaderModuleDescriptor.code=computeShader;
+shaderModuleDescriptor.code=computeShader;
 
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
@@ -136,13 +136,7 @@ stageDesc.constants=NULL;
  //  renderPipelineDesc.fragment.numTargets = 1;
 //   renderPipelineDesc.fragment.targets = &colorTarget;
  
-// wgpu_device_create_compute_pipeline(
-// WGpuDevice device,
-// WGpuShaderModule computeModule, 
-// const char *entryPoint NOTNULL,
-// WGpuPipelineLayout layout,
-// const WGpuPipelineConstant *constants,
-// int numConstants);
+// wgpu_device_create_compute_pipeline(WGpuDevice device,WGpuShaderModule computeModule, const char *entryPoint NOTNULL,WGpuPipelineLayout layout,const WGpuPipelineConstant *constants,int numConstants);
 
 
 //   emscripten_set_main_loop(raf,0);
