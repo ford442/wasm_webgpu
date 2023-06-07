@@ -80,7 +80,7 @@ uint32_t onE=1;
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 std::cout << "dispatch workgroups" << std::endl;
-wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,onE,onE);
+wgpu_compute_pass_encoder_dispatch_workgroups(encoder,onE,onE,onE);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
@@ -94,10 +94,10 @@ WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
-for(int i=0;i<input.size();++i){
+// for(int i=0;i<input.size();++i){
 
 // mapBuffer.unmap();
-}
+// }
 // done=true;
 // });
 return; // Render just one frame, static content
