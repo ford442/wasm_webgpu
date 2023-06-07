@@ -25,11 +25,31 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
+WGpuQueue queue;
+WGpuComputePassDescriptor computePassDescriptor={};
+WGpuBufferDescriptor bufferDescriptor={};
+WGpuBufferBindingLayout bufferBindingLayout1={};
+WGpuBufferBindingLayout bufferBindingLayout2={};
+WGpuBuffer inputBuffer;
+WGpuShaderModuleDescriptor shaderModuleDescriptor={};
+WGpuBuffer outputBuffer;
+WGpuBuffer mapBuffer;
+WGpuBuffer uniBuffer;
+WGpuShaderModule cs;
+WGpuCommandBufferDescriptor commandBufferDescriptor={};
+WGpuCommandBuffer commandBuffer;
+WGpuCommandEncoder encoder;
+WGpuComputePassEncoder computePass;
+WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
+WGpuBindGroupEntry bindGroupEntry[2]={};
+WGpuBindGroup bindGroup;
+WGpuPipelineLayout pipelineLayout;
+
 void onPipeline(){
 std::cout << "creating encoder" << std::endl;
-WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
+encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
-WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
@@ -49,8 +69,7 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
-WGpuCommandBufferDescriptor commandBufferDescriptor={};
-WGpuCommandBuffer commandBuffer=wgpu_encoder_finish(encoder);
+commandBuffer=wgpu_encoder_finish(encoder);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
 std::cout << "after wgpu_queue_submit_one" << std::endl;
@@ -66,48 +85,40 @@ return; // Render just one frame, static content
 }
 
 void raf(WGpuDevice device){
-WGpuQueue queue=wgpu_device_get_queue(device);
+queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
  //   WGpuRenderPassColorAttachment colorAttachment = WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEFAULT_INITIALIZER;
  //   colorAttachment.view = wgpu_texture_create_view(wgpu_canvas_context_get_current_texture(canvasContext), 0);
 //   WGpuRenderPassDescriptor passDesc = {};
-WGpuComputePassDescriptor computePassDescriptor={};
 // computePassDescriptor.timestampWriteCount = 0;
 computePassDescriptor.timestampWrites = NULL;
 //   passDesc.numColorAttachments = 1;
 //   passDesc.colorAttachments = &colorAttachment;
  //  WGpuRenderPassEncoder pass = wgpu_command_encoder_begin_render_pass(encoder, &passDesc);
-WGpuBufferDescriptor bufferDescriptor={};
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
-WGpuBuffer inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
-WGpuBuffer outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
-WGpuBuffer mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
-	
+mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM;
-WGpuBuffer uniBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+uniBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
-
-// queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
 }
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
+shaderModuleDescriptor={computeShader,0,NULL};
 	// shaderModuleDescriptor.code=computeShader;
 std::cout << "wgpu_device_create_shader_module" << std::endl;
-WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
+cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 std::cout << "create bindgroup layout" << std::endl;
-WGpuBufferBindingLayout bufferBindingLayout1={};
 bufferBindingLayout1.type=3;
-WGpuBufferBindingLayout bufferBindingLayout2={};
 bufferBindingLayout2.type=2;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
 bindGroupLayoutEntries[0].binding=0;
 bindGroupLayoutEntries[0].visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntries[0].type=1;
@@ -118,15 +129,14 @@ bindGroupLayoutEntries[1].type=1;
 bindGroupLayoutEntries[1].layout.buffer=bufferBindingLayout2;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,bindGroupLayoutEntries,2);
 std::cout << "create bindgroup" << std::endl;
-WGpuBindGroupEntry bindGroupEntry[2]={};
 bindGroupEntry[0].binding=0;
 bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
-WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
+bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
-WGpuPipelineLayout pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
+pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
 computePipeline=wgpu_device_create_compute_pipeline_async(device,cs,Entry,pipelineLayout,NULL,0,onPipeline,0);
 }
 
