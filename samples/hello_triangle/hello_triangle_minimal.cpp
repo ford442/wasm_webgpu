@@ -144,7 +144,7 @@ std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 auto getOutput = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
 std::cout << getOutput << std::endl;
 void * readOutput;
-wgpu_buffer_read_mapped_range(buffer,0,0,&readOutput,size);
+wgpu_buffer_read_mapped_range(mapBuffer,0,0,&readOutput,bufferSize);
 std::cout << readOutput << std::endl;
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
