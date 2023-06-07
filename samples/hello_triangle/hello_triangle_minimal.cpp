@@ -111,6 +111,9 @@ std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 uint32_t invocationCount=bufferSize/sizeof(float);
 uint32_t workgroupSize=32;
+queue=wgpu_device_get_queue(device);
+std::cout << "not skipping input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount=(invocationCount+workgroupSize-1)/workgroupSize;
 std::cout << "inputBuffer: " << inputBuffer << std::endl;
@@ -126,9 +129,7 @@ std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
 wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
-queue=wgpu_device_get_queue(device);
-std::cout << "not skipping input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
