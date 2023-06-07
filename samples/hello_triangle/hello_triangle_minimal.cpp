@@ -97,9 +97,9 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 // std::cout << "at wgpu_command_encoder_finish" << std::endl;
-WGpuCommandBuffer commandBuffer=1;// =wgpu_command_encoder_finish(encoder);
+WGpuCommandBuffer commandBuffer={};// =wgpu_command_encoder_finish(encoder);
 std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
-wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
+wgpu_queue_submit_one(queue,commandBuffer);
 // bool done=false;
 // auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
 // const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
