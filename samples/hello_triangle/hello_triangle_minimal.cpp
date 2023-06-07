@@ -67,7 +67,7 @@ WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
 bindGroupLayoutEntry1.binding=0;
 bindGroupLayoutEntry1.visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntry1.type=1;
-bindGroupLayoutEntry1.buffer=inputBuffer;
+bindGroupLayoutEntry1.layout.buffer=inputBuffer;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntry1={};
