@@ -48,7 +48,7 @@ void raf(WGpuDevice device){
 queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
-computePassDescriptor.timestampWrites = nullptr;
+computePassDescriptor.timestampWrites = NULL;
 computePassDescriptor.numTimestampWrites = 0;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
