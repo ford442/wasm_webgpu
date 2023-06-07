@@ -110,7 +110,7 @@ std::cout << "input: " << input[0] << std::endl;
 	// dispatch workgroups
 std::cout << "dispatch workgroups:" << workgroupCount << ",1,1" << std::endl;
 // wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_t(1),uint32_t(1));
-wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
+wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(2),uint32_t(1),uint32_t(1));
 std::cout << "wgpu_encoder_end" << std::endl;
 wgpu_encoder_end(computePass);
 	// copy output buff	
