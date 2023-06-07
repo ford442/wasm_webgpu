@@ -47,7 +47,6 @@ const char *computeShader =
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
 "outputBuffer[0] = 11.11;"
-"return;"
 "}";
 
 void raf(WGpuDevice device){
