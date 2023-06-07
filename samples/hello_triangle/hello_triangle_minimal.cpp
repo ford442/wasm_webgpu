@@ -76,6 +76,10 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
+	
+std::cout << "create bindgroup layout" << std::endl;
+bindGroupLayout=wgpu_device_create_bind_group_layout(device,nullptr,0);
+
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
 
