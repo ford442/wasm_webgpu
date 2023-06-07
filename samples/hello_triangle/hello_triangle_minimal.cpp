@@ -43,7 +43,6 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
 // computePassDescriptor.timestampWrites = NULL;
@@ -110,6 +109,7 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
 	// copy output buff
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
+queue=wgpu_device_get_queue(device);
 
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
