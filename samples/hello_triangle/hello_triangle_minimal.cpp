@@ -81,7 +81,7 @@ std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntries[2]={};
 bindGroupEntries[0].binding=0;
 bindGroupEntries[0].resource=inputBuffer;
-bindGroupEntries[1].binding=2;
+bindGroupEntries[1].binding=1;
 bindGroupEntries[1].resource=outputBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntries,2);
 const char * Entry="computeStuff";
