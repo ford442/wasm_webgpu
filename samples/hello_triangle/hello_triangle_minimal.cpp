@@ -37,7 +37,7 @@ int bufferSize = 64 * sizeof(float);
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
-// "@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
+"@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
@@ -63,7 +63,7 @@ bufferDescriptorO.size=bufferSize;
 bufferDescriptorO.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
 bufferDescriptorM.mappedAtCreation=false;
 bufferDescriptorM.size=bufferSize;
-bufferDescriptorM.usage=WGPU_BUFFER_BINDING_TYPE_STORAGE;
+bufferDescriptorM.usage=WGPU_BUFFER_BINDING_TYPE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptorM);
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptorI);
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptorO);
@@ -135,15 +135,13 @@ std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
 wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
-
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
-std::cout << "test" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),1*sizeof(float));
+auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
 std::cout << "buffer read_mapped_range" << std::endl;
 std::cout << getOutput << std::endl;
 };
