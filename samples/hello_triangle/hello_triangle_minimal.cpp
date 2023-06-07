@@ -32,6 +32,7 @@ WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
 WGpuDeviceDescriptor deviceDescriptor={};
 WGpuQuerySet querySet=0;
+void *userDataA;
 
 int bufferSize = 64 * sizeof(float);
 
@@ -46,7 +47,7 @@ const char *computeShader =
 "fn computeStuff(@builtin(global_invocation_id) global_id: vec3<u32>,@builtin(local_invocation_id) local_id: vec3<u32>) {"
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
-"outputBuffer[global_id.x] = 111.0;"
+"outputBuffer[0] = 111.0;"
 // "mapBuffer[0] = outputBuffer[0];"
 "}";
 
@@ -141,17 +142,15 @@ std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-double getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
+auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
 std::cout << getOutput << std::endl;
 void * readOutput;
 wgpu_buffer_read_mapped_range(mapBuffer,getOutput,0,&readOutput,bufferSize);
-float * dtt=readOutput;
-std::cout << &dtt << std::endl;
+std::cout << &readOutput << std::endl;
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << "wgpu_buffer_map_async" << std::endl;
 WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
-void *userDataA;
 wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferSize);
 };
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
