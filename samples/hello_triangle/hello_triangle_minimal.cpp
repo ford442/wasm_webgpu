@@ -51,9 +51,9 @@ const char *computeShader =
 
 void raf(WGpuDevice device){
 std::cout << "creating querySet" << std::endl;
-querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
 querySetDescriptor.type=WGPU_QUERY_TYPE_TIMESTAMP;
 querySetDescriptor.count=1;
+querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
 computePassTimestampWrite.querySet=querySet;
 computePassTimestampWrite.queryIndex=0;
 computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
