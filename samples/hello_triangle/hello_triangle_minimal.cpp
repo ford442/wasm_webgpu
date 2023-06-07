@@ -26,7 +26,7 @@ WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
 WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
-
+WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
 int bufferSize = 64 * sizeof(float);
 
 const char *computeShader =
@@ -89,7 +89,7 @@ bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 std::cout << "creating encoder" << std::endl;
-encoder=wgpu_device_create_command_encoder(device,0);
+encoder=wgpu_device_create_command_encoder(device,&commandEncoderDescriptor);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
