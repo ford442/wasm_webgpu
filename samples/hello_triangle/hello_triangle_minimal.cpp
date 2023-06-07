@@ -25,7 +25,7 @@ WGpuCommandBuffer commandBuffer=0;
 WGpuCommandEncoder encoder=0;
 WGpuComputePassEncoder computePass=0;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
-WGpuBindGroupEntry bindGroupEntry[2]={};
+WGpuBindGroupEntry bindGroupEntry[3]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
@@ -37,7 +37,7 @@ int bufferSize = 64 * sizeof(float);
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
-"@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
+// "@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
@@ -47,7 +47,7 @@ const char *computeShader =
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
 "outputBuffer[0] = 11.11;"
-"mapBuffer[0] = outputBuffer[0];"
+// "mapBuffer[0] = outputBuffer[0];"
 "}";
 
 void raf(WGpuDevice device){
@@ -97,8 +97,12 @@ bindGroupEntry[0].bufferBindSize=0;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroupEntry[1].bufferBindOffset=0;
-bindGroupEntry[1].bufferBindSize=0; 
-bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
+bindGroupEntry[1].bufferBindSize=0;
+bindGroupEntry[2].binding=1;
+bindGroupEntry[2].resource=outputBuffer;
+bindGroupEntry[2].bufferBindOffset=0;
+bindGroupEntry[2].bufferBindSize=0; 
+bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,3);
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
