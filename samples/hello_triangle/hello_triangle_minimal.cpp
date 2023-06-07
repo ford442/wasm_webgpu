@@ -46,7 +46,7 @@ const char *computeShader =
 "fn computeStuff(@builtin(global_invocation_id) global_id: vec3<u32>,@builtin(local_invocation_id) local_id: vec3<u32>) {"
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
-"outputBuffer[global_id.x] = 11.11;"
+"outputBuffer[global_id.x] = 11.0;"
 // "mapBuffer[0] = outputBuffer[0];"
 "}";
 
