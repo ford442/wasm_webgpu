@@ -45,7 +45,7 @@ WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 
-void onPipeline(){
+WGpuCreatePipelineCallback onPipeline(){
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
