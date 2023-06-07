@@ -45,11 +45,11 @@ WGpuBufferDescriptor bufferDescriptor={};
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
-WGpuBuffer inputBuffer=WGpuBuffer wgpu_device_create_buffer(device,bufferDescriptor);
+WGpuBuffer inputBuffer=wgpu_device_create_buffer(device,bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
-WGpuBuffer outputBuffer=WGpuBuffer wgpu_device_create_buffer(device,bufferDescriptor);
+WGpuBuffer outputBuffer=wgpu_device_create_buffer(device,bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_COPY_DST|WGPU_BUFFER_USAGE_MAP_READ;
-WGpuBuffer mapBuffer=WGpuBuffer wgpu_device_create_buffer(device,bufferDescriptor);
+WGpuBuffer mapBuffer=wgpu_device_create_buffer(device,bufferDescriptor);
 // queue.writeBuffer(inputBuffer,0,input.data(),input.size()*sizeof(float));
 for(int i=0;i<input.size();++i){
 input[i]=0.1f*i;
