@@ -38,7 +38,6 @@ int bufferSize = 64 * sizeof(float);
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
-"@group(0) @binding(2) var<storage,read_write> mapBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
