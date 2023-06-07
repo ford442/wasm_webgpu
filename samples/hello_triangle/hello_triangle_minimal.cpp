@@ -118,10 +118,10 @@ commandBuffer=wgpu_encoder_finish(encoder);
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 };
-WGpuBufferMapCallback onBuffer=[](WGpuBuffer mapBuffer,void *userData,WGPU_MAP_MODE_READ,0,bufferSize){
+WGpuBufferMapCallback onBuffer=[](WGpuBuffer mapBuffer,void *userData,0x1,0,bufferSize){
 std::cout << "output: "<< std::endl;
 };
-const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,WGPU_MAP_MODE_READ,0,bufferSize);
+const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,0x1,0,bufferSize);
 std::cout << output << std::endl;
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
