@@ -89,7 +89,7 @@ bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 std::cout << "creating encoder" << std::endl;
-encoder=wgpu_device_create_command_encoder(device,&commandEncoderDescriptor);
+encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
@@ -134,7 +134,7 @@ wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferS
 };
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
-wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
+// wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 
 return;
 }
