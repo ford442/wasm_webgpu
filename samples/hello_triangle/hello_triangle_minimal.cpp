@@ -118,11 +118,11 @@ std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << mapBuffer << std::endl;
 };
 
-WGpuBufferMapCallback onBuffer=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,0,bufferSize){
+WGpuBufferMapCallback onBuffer=[](WGpuBuffer buffer,void *userData,1,0,bufferSize){
 std::cout << "output: " << std::endl;
 std::cout <<buffer << std::endl;
 };
-const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,WGPU_MAP_MODE_FLAGS 0x1,0,bufferSize);
+const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,1,0,bufferSize);
 
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
