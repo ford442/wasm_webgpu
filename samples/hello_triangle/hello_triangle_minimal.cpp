@@ -122,14 +122,13 @@ WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-void * getOutput;
-wgpu_buffer_read_mapped_range(buffer,uint32_t(0),uint32_t(0),&getOutput,size);
+double outPut = wgpu_buffer_get_mapped_range(buffer,uint32_t(0),size);
 std::cout << getOutput << std::endl;
 wgpu_encoder_end(computePass);
 };
-WGPU_MAP_MODE_FLAGS mode1=0x1;
+WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
 void *userDataA;
-wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,0,bufferSize);
+wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferSize);
 };
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
