@@ -27,8 +27,6 @@ WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
-WGpuComputePassTimestampWrite computePassTimestampWrite={};
-WGpuQuerySetDescriptor querySetDescriptor={};
 WGpuDeviceDescriptor deviceDescriptor={};
 WGpuQuerySet querySet=0;
 
@@ -49,16 +47,9 @@ const char *computeShader =
 
 void raf(WGpuDevice device){
 std::cout << "skipping querySet" << std::endl;
-querySetDescriptor.type=NULL;
-querySetDescriptor.count=0;
-// querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
-computePassTimestampWrite.querySet=NULL;
-computePassTimestampWrite.queryIndex=0;
-computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
 std::vector<float>input(bufferSize/sizeof(float));
-void * timestampWrites;
-computePassDescriptor.timestampWrites=&timestampWrites;
-computePassDescriptor.numTimestampWrites=0;
+// computePassDescriptor.timestampWrites=&timestampWrites;
+// computePassDescriptor.numTimestampWrites=0;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
@@ -73,7 +64,6 @@ input[i]=21.0021f;
 shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
-
 std::cout << "create bindgroup layout" << std::endl;
 bufferBindingLayout1.type=3;
 bufferBindingLayout2.type=2;
@@ -98,7 +88,6 @@ bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
-	
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
