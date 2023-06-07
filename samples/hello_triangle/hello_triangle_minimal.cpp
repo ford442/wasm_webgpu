@@ -80,9 +80,9 @@ std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 std::cout << "dispatch workgroups" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(encoder,workgroupCount,1,1);
-pass.dispatchWorkgroups(workgroupCount, 1, 1);
-pass.end();
-encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+// pass.dispatchWorkgroups(workgroupCount, 1, 1);
+// pass.end();
+// encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
 
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 WGpuCommandBuffer commandBuffer=wgpu_command_encoder_finish(encoder);
@@ -106,7 +106,7 @@ void ObtainedWebGpuDevice(WGpuDevice result,void *userData){
 device=result;
 //   canvasContext = wgpu_canvas_get_webgpu_context("canvas");
  //  WGpuCanvasConfiguration config = WGPU_CANVAS_CONFIGURATION_DEFAULT_INITIALIZER;
-config.device = device;
+// config.device = device;
 //   config.format = navigator_gpu_get_preferred_canvas_format();
 //   wgpu_canvas_context_configure(canvasContext, &config);
 raf(device);
