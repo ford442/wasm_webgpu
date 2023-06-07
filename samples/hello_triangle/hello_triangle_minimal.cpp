@@ -105,6 +105,8 @@ std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
+std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
+commandBuffer=wgpu_encoder_finish(encoder);
 uint32_t invocationCount=bufferSize/sizeof(float);
 uint32_t workgroupSize=32;
 	// This ceils invocationCount / workgroupSize
@@ -117,8 +119,7 @@ std::cout << "dispatch workgroups:" << workgroupCount << ",1,1" << std::endl;
 // wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_t(1),uint32_t(1));
 wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
 	// copy output buff
-std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
-commandBuffer=wgpu_encoder_finish(encoder);
+
 queue=wgpu_device_get_queue(device);
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
