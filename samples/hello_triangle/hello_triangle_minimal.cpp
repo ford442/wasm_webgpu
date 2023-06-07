@@ -62,12 +62,10 @@ bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
 mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
-bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
-bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
+bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
-bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM|WGPU_BUFFER_USAGE_COPY_DST;
 for(int i=0;i<input.size();++i){
 input[i]=21.0021f;
 }
