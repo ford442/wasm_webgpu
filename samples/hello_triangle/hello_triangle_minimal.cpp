@@ -58,8 +58,8 @@ computePassTimestampWrite.querySet=querySet;
 computePassTimestampWrite.queryIndex=0;
 computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
 std::vector<float>input(bufferSize/sizeof(float));
-computePassDescriptor.timestampWrites = computePassTimestampWrite;
-computePassDescriptor.numTimestampWrites = 1;
+computePassDescriptor.timestampWrites=&computePassTimestampWrite;
+computePassDescriptor.numTimestampWrites=1;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
@@ -107,10 +107,10 @@ std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
-uint32_t invocationCount = bufferSize / sizeof(float);
-uint32_t workgroupSize = 32;
+uint32_t invocationCount=bufferSize/sizeof(float);
+uint32_t workgroupSize=32;
 	// This ceils invocationCount / workgroupSize
-uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
+uint32_t workgroupCount=(invocationCount+workgroupSize-1)/workgroupSize;
 std::cout << "inputBuffer: " << inputBuffer << std::endl;
 std::cout << "input: " << input[0] << std::endl;
 std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
@@ -121,14 +121,12 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
 	// copy output buff
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
-	
 queue=wgpu_device_get_queue(device);
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-	
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
-WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
+WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << buffer << std::endl;
 std::cout << "test" << std::endl;
