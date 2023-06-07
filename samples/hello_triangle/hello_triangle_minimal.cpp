@@ -27,6 +27,13 @@ WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
+WGpuComputePassTimestampWrite computePassTimestampWrite={};
+WGpuQuerySetDescriptor querySetDescriptor={};
+
+WGpuQuerySet querySet=0;
+
+
+
 int bufferSize = 64 * sizeof(float);
 
 const char *computeShader =
@@ -85,6 +92,12 @@ bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
+querySet=wgpu_device_create_query_set(device,&wgpu_device_create_query_set);
+querySetDescriptor.type=WGPU_QUERY_TYPE_TIMESTAMP;
+querySetDescriptor.count=1;
+computePassTimestampWrite.querySet=querySet;
+computePassTimestampWrite.queryIndex=0;
+computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
