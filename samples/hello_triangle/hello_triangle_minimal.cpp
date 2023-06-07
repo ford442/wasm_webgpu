@@ -130,7 +130,7 @@ std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 void * getOutput[bufferSize]={};
-wgpu_buffer_read_mapped_range(WGpuBuffer mapBuffer,0,0,&getOutput,bufferSize);
+wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
 std::cout << getOutput[0] << std::endl;
 std::cout << " wgpu_encoder_end" << std::endl;
 wgpu_encoder_end(computePass);
