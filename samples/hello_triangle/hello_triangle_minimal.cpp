@@ -30,10 +30,7 @@ WGpuCommandEncoderDescriptor commandEncoderDescriptor={};
 WGpuComputePassTimestampWrite computePassTimestampWrite={};
 WGpuQuerySetDescriptor querySetDescriptor={};
 WGpuDeviceDescriptor deviceDescriptor={};
-
 WGpuQuerySet querySet=0;
-
-
 
 int bufferSize = 64 * sizeof(float);
 
@@ -52,8 +49,8 @@ const char *computeShader =
 
 void raf(WGpuDevice device){
 std::cout << "creating querySet" << std::endl;
-querySetDescriptor.type=WGPU_QUERY_TYPE_TIMESTAMP;
-querySetDescriptor.count=1;
+querySetDescriptor.type=NULL;
+querySetDescriptor.count=0;
 querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
 computePassTimestampWrite.querySet=querySet;
 computePassTimestampWrite.queryIndex=0;
