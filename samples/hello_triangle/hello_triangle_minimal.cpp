@@ -145,7 +145,7 @@ double getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize
 std::cout << getOutput << std::endl;
 void * readOutput;
 wgpu_buffer_read_mapped_range(mapBuffer,getOutput,0,&readOutput,bufferSize);
-float * dtt=float(readOutput);
+float * dtt=readOutput;
 std::cout << &dtt << std::endl;
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
