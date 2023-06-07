@@ -122,6 +122,7 @@ void * getOutput;
 // std::cout << getOutput << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
+std::cout << buffer << std::endl;
 
 };
 WGPU_MAP_MODE_FLAGS mode1=0x1;
