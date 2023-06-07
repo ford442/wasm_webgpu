@@ -46,9 +46,12 @@ void raf(WGpuDevice device){
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
 queue=wgpu_device_get_queue(device);
+std::vector<float>input(bufferSize/sizeof(float));
+for(int i=0;i<input.size();++i){
+input[i]=21.0021f;
+}
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-std::vector<float>input(bufferSize/sizeof(float));
 // computePassDescriptor.timestampWrites = NULL;
 computePassDescriptor.numTimestampWrites = uint32_t(0);
 bufferDescriptor.mappedAtCreation=false;
@@ -61,9 +64,7 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM|WGPU_BUFFER_USAGE_COPY_DST;
-for(int i=0;i<input.size();++i){
-input[i]=21.0021f;
-}
+
 shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
