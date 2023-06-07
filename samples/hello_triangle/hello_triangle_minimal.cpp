@@ -141,16 +141,14 @@ std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-float getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
+double getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
 std::cout << getOutput << std::endl;
 void * readOutput;
 wgpu_buffer_read_mapped_range(mapBuffer,getOutput,0,&readOutput,bufferSize);
-std::cout << readOutput.data() << std::endl;
+float * dtt=float(readOutput);
+std::cout << &dtt << std::endl;
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
-std::cout << "mapBuffer:" << mapBuffer << std::endl;
-std::cout << "outputBuffer:" << outputBuffer << std::endl;
-std::cout << "mapBuffer:" << mapBuffer << std::endl;
 std::cout << "wgpu_buffer_map_async" << std::endl;
 WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
 void *userDataA;
