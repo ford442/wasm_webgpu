@@ -50,10 +50,16 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-std::cout << "beginning compute commands" << std::endl;
+std::cout << "creating querySet" << std::endl;
+querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
+querySetDescriptor.type=WGPU_QUERY_TYPE_TIMESTAMP;
+querySetDescriptor.count=1;
+computePassTimestampWrite.querySet=querySet;
+computePassTimestampWrite.queryIndex=0;
+computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
 std::vector<float>input(bufferSize/sizeof(float));
-// computePassDescriptor.timestampWrites = NULL;
-computePassDescriptor.numTimestampWrites = uint32_t(0);
+computePassDescriptor.timestampWrites = computePassTimestampWrite;
+computePassDescriptor.numTimestampWrites = 1;
 bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
@@ -70,13 +76,7 @@ input[i]=21.0021f;
 shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
-std::cout << "creating querySet" << std::endl;
-querySet=wgpu_device_create_query_set(device,&querySetDescriptor);
-querySetDescriptor.type=WGPU_QUERY_TYPE_TIMESTAMP;
-querySetDescriptor.count=1;
-computePassTimestampWrite.querySet=querySet;
-computePassTimestampWrite.queryIndex=0;
-computePassTimestampWrite.location=WGPU_COMPUTE_PASS_TIMESTAMP_LOCATION_BEGINNING;
+
 std::cout << "create bindgroup layout" << std::endl;
 bufferBindingLayout1.type=3;
 bufferBindingLayout2.type=2;
