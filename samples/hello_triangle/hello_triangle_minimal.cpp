@@ -125,7 +125,8 @@ std::cout << "at mapCallback!" << std::endl;
 
 };
 WGPU_MAP_MODE_FLAGS mode1=0x1;
-wgpu_buffer_map_async(mapBuffer,mapCallback,void *userData,mode1,0,bufferSize);
+void *userData;
+wgpu_buffer_map_async(mapBuffer,mapCallback,&userData,mode1,0,bufferSize);
 wgpu_encoder_end(computePass);
 };
 
