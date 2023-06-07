@@ -45,45 +45,6 @@ WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 
-WGpuCreatePipelineCallback onPipeline(){
-std::cout << "creating encoder" << std::endl;
-encoder=wgpu_device_create_command_encoder(device,0);
-std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
-computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-std::cout << "wgpu_encoder_set_bind_group" << std::endl;
-wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
-std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
-wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
-//    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
-//    wgpu_render_pass_encoder_end(pass);
-uint32_t invocationCount = bufferSize / sizeof(float);
-uint32_t workgroupSize = 32;
-	// This ceils invocationCount / workgroupSize
-uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
-uint32_t onE=1;
-std::cout << "inputBuffer:\n" << std::endl;
-std::cout << inputBuffer << std::endl;
-std::cout << "dispatch workgroups" << std::endl;
-wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE);
-// pass.dispatchWorkgroups(workgroupCount, 1, 1);
-// pass.end();
-// encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
-std::cout << "at wgpu_command_encoder_finish" << std::endl;
-commandBuffer=wgpu_encoder_finish(encoder);
-std::cout << "at wgpu_queue_submit_one" << std::endl;
-wgpu_queue_submit_one(queue,commandBuffer);
-std::cout << "after wgpu_queue_submit_one" << std::endl;
-// bool done=false;
-// auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
-// const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
-// for(int i=0;i<input.size();++i){
-// mapBuffer.unmap();
-// }
-// done=true;
-// });
-return; // Render just one frame, static content
-}
-
 void raf(WGpuDevice device){
 queue=wgpu_device_get_queue(device);
 std::cout << "beginning compute commands" << std::endl;
@@ -137,7 +98,43 @@ bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2)
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
 pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
-computePipeline=wgpu_device_create_compute_pipeline_async(device,cs,Entry,pipelineLayout,NULL,0,onPipeline,0);
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
+std::cout << "creating encoder" << std::endl;
+encoder=wgpu_device_create_command_encoder(device,0);
+std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
+computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+std::cout << "wgpu_encoder_set_bind_group" << std::endl;
+wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
+std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
+wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
+//    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
+//    wgpu_render_pass_encoder_end(pass);
+uint32_t invocationCount = bufferSize / sizeof(float);
+uint32_t workgroupSize = 32;
+	// This ceils invocationCount / workgroupSize
+uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
+uint32_t onE=1;
+std::cout << "inputBuffer:\n" << std::endl;
+std::cout << inputBuffer << std::endl;
+std::cout << "dispatch workgroups" << std::endl;
+wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE);
+// pass.dispatchWorkgroups(workgroupCount, 1, 1);
+// pass.end();
+// encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
+std::cout << "at wgpu_command_encoder_finish" << std::endl;
+commandBuffer=wgpu_encoder_finish(encoder);
+std::cout << "at wgpu_queue_submit_one" << std::endl;
+wgpu_queue_submit_one(queue,commandBuffer);
+std::cout << "after wgpu_queue_submit_one" << std::endl;
+// bool done=false;
+// auto handle=mapBuffer.mapAsync(WGPU_MAP_MODE_READ,0,bufferSize{
+// const float* output=(const float*)mapBuffer.getConstMappedRange(0,bufferSize);
+// for(int i=0;i<input.size();++i){
+// mapBuffer.unmap();
+// }
+// done=true;
+// });
+return; // Render just one frame, static content
 }
 
 
