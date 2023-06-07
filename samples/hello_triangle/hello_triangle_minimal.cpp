@@ -7,7 +7,7 @@ WGpuAdapter adapter=0;
 // WGpuCanvasContext canvasContext;
 WGpuDevice device=0;
 // WGpuRenderPipeline renderPipeline;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry={};
 WGpuBindGroupLayout bindGroupLayout=0;
 WGpuComputePipeline computePipeline=0;
 
@@ -75,11 +75,12 @@ uint32_t workgroupSize = 32;
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
 std::cout << "create bindgroup layout" << std::endl;
-WGpuBindGroupLayoutEntry bfrEntry1={};
-bfrEntry1.type=1;
-bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bfrEntry1,1);
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
+bindGroupLayoutEntry1.type=1;
+bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
 std::cout << "create bindgroup" << std::endl;
-WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
+WGpuBindGroupEntry bindGroupEntry1={};
+WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry1,1);
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 
