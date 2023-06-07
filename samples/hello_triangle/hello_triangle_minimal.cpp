@@ -36,7 +36,7 @@ const char *computeShader =
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
-"return 2.0 * x + 1.0;"
+"return 2.0 * x + 0.42;"
 "}"
 "@compute @workgroup_size(32)"
 "fn computeStuff(@builtin(global_invocation_id) id: vec3<u32>) {"
@@ -64,7 +64,7 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM;
 // uniBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 // bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 for(int i=0;i<input.size();++i){
-input[i]=0.1f*i;
+input[i]=21.0021f;
 }
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
