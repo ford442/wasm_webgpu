@@ -99,23 +99,25 @@ bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
+	
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
+wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);	
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
-std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
-wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 uint32_t invocationCount=bufferSize/sizeof(float);
 uint32_t workgroupSize=32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount=(invocationCount+workgroupSize-1)/workgroupSize;
 std::cout << "inputBuffer: " << inputBuffer << std::endl;
 std::cout << "input: " << input[0] << std::endl;
-std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
-wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
+	// dispatch workgroups
 std::cout << "dispatch workgroups:" << workgroupCount << ",1,1" << std::endl;
 // wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_t(1),uint32_t(1));
 wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
+std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
+wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
 	// copy output buff
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
