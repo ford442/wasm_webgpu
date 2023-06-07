@@ -117,7 +117,7 @@ std::cout << "at wgpu_command_encoder_finish" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue, void *userData){
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
-}
+};
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
@@ -128,6 +128,7 @@ for(int i=0;i<input.size();++i){
 mapBuffer.unmap();
 }
 });
+std::cout << "output: " << output << std::endl;
 return;
 }
 
