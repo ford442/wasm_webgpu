@@ -9,7 +9,7 @@ WGpuDevice device=0;
 // WGpuRenderPipeline renderPipeline;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
-WGpuComputePipeline computePipeline=nullptr;
+WGpuComputePipeline computePipeline=0;
 
 int bufferSize = 64 * sizeof(float);
 
