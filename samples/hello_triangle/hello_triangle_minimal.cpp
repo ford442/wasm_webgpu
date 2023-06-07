@@ -64,12 +64,12 @@ WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescrip
 std::cout << "create bindgroup layout" << std::endl;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
 bindGroupLayoutEntry1.binding=0;
+bindGroupLayoutEntry1..visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntry1.type=1;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntry1={};
 bindGroupEntry1.binding=0;
-bindGroupEntry1.visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupEntry1.resource=uniBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 const char * Entry="computeStuff";
