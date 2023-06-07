@@ -43,15 +43,6 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
-commandBuffer=wgpu_encoder_finish(encoder);
-queue=wgpu_device_get_queue(device);
-std::vector<float>input(bufferSize/sizeof(float));
-for(int i=0;i<input.size();++i){
-input[i]=21.0021f;
-}
-std::cout << "not skipping input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 // computePassDescriptor.timestampWrites = NULL;
 computePassDescriptor.numTimestampWrites = uint32_t(0);
 bufferDescriptor.mappedAtCreation=false;
@@ -64,7 +55,6 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM|WGPU_BUFFER_USAGE_COPY_DST;
-
 shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
@@ -90,16 +80,21 @@ bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
-	
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
-	
+std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
+commandBuffer=wgpu_encoder_finish(encoder);
+queue=wgpu_device_get_queue(device);
+std::vector<float>input(bufferSize/sizeof(float));
+for(int i=0;i<input.size();++i){
+input[i]=21.0021f;
+}
+std::cout << "not skipping input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-	
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_compute_pass_encoder_set_bind_group(computePass,0,bindGroup,0,0);
-	
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 uint32_t invocationCount = bufferSize / sizeof(float);
