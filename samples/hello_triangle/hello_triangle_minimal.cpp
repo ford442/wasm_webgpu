@@ -25,25 +25,25 @@ const char *computeShader =
 "outputBuffer[id.x] = f(inputBuffer[id.x]);"
 "}";
 
-WGpuQueue queue;
+WGpuQueue queue=0;
 WGpuComputePassDescriptor computePassDescriptor={};
 WGpuBufferDescriptor bufferDescriptor={};
 WGpuBufferBindingLayout bufferBindingLayout1={};
 WGpuBufferBindingLayout bufferBindingLayout2={};
-WGpuBuffer inputBuffer;
+WGpuBuffer inputBuffer=0;
 WGpuShaderModuleDescriptor shaderModuleDescriptor={};
-WGpuBuffer outputBuffer;
-WGpuBuffer mapBuffer;
-WGpuBuffer uniBuffer;
-WGpuShaderModule cs;
+WGpuBuffer outputBuffer=0;
+WGpuBuffer mapBuffer=0;
+WGpuBuffer uniBuffer=0;
+WGpuShaderModule cs=0;
 WGpuCommandBufferDescriptor commandBufferDescriptor={};
-WGpuCommandBuffer commandBuffer;
-WGpuCommandEncoder encoder;
-WGpuComputePassEncoder computePass;
+WGpuCommandBuffer commandBuffer=0;
+WGpuCommandEncoder encoder=0;
+WGpuComputePassEncoder computePass=0;
 WGpuBindGroupLayoutEntry bindGroupLayoutEntries[2]={};
 WGpuBindGroupEntry bindGroupEntry[2]={};
-WGpuBindGroup bindGroup;
-WGpuPipelineLayout pipelineLayout;
+WGpuBindGroup bindGroup=0;
+WGpuPipelineLayout pipelineLayout=0;
 
 void onPipeline(){
 std::cout << "creating encoder" << std::endl;
