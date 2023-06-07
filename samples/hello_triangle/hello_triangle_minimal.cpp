@@ -43,7 +43,11 @@ const char *computeShader =
 "}";
 
 void raf(WGpuDevice device){
-std::cout << "beginning compute commands" << std::endl;
+std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
+commandBuffer=wgpu_encoder_finish(encoder);
+queue=wgpu_device_get_queue(device);
+std::cout << "not skipping input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 std::vector<float>input(bufferSize/sizeof(float));
 // computePassDescriptor.timestampWrites = NULL;
 computePassDescriptor.numTimestampWrites = uint32_t(0);
@@ -85,12 +89,16 @@ bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
+	
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
+	
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
+	
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
-wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
+wgpu_compute_pass_encoder_set_bind_group(computePass,0,bindGroup,0,0);
+	
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 uint32_t invocationCount = bufferSize / sizeof(float);
@@ -105,13 +113,7 @@ std::cout << "dispatch workgroups:" << workgroupCount << ",1,1" << std::endl;
 // wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_t(1),uint32_t(1));
 wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
 	// copy output buff
-std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
-commandBuffer=wgpu_encoder_finish(encoder);
-	
-queue=wgpu_device_get_queue(device);
-std::cout << "not skipping input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
-	
+
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
