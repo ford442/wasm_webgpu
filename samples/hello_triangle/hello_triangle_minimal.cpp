@@ -63,7 +63,7 @@ bufferDescriptorO.size=bufferSize;
 bufferDescriptorO.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
 bufferDescriptorM.mappedAtCreation=false;
 bufferDescriptorM.size=bufferSize;
-bufferDescriptorM.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
+bufferDescriptorM.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptorM);
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptorI);
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptorO);
@@ -157,7 +157,6 @@ wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferS
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
 wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
-
 return;
 }
 
