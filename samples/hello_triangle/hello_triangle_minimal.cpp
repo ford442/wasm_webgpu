@@ -27,7 +27,7 @@ WGpuBindGroupEntry bindGroupEntry[2]={};
 WGpuBindGroup bindGroup=0;
 WGpuPipelineLayout pipelineLayout=0;
 
-int bufferSize = 64 * sizeof(float);
+int bufferSize = 1 * sizeof(float);
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
