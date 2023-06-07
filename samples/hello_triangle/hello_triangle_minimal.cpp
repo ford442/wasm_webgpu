@@ -70,7 +70,7 @@ bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntr
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntry1={};
 bindGroupEntry1.binding=0;
-bindGroupEntry1.resource=uniBuffer;
+bindGroupEntry1.resource=inputBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
