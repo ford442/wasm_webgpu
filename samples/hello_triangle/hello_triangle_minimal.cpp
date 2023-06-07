@@ -15,7 +15,6 @@ int bufferSize = 64 * sizeof(float);
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
 "@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
-"@group(0) @binding(2) var<storage,read_write> uniBuffer: array<f32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 1.0;"
@@ -68,11 +67,12 @@ WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
 bindGroupLayoutEntry1.binding=0;
 bindGroupLayoutEntry1.visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntry1.type=1;
+bindGroupLayoutEntry1.buffer=inputBuffer;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
 std::cout << "create bindgroup" << std::endl;
 WGpuBindGroupEntry bindGroupEntry1={};
-bindGroupEntry1.binding=2;
-bindGroupEntry1.resource=uniBuffer;
+bindGroupEntry1.binding=0;
+bindGroupEntry1.resource=inputBuffer;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
