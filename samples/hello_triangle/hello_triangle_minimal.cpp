@@ -172,7 +172,6 @@ wgpu_device_create_compute_pipeline(WGpuDevice device,WGpuShaderModule computeMo
 
 void ObtainedWebGpuAdapter(WGpuAdapter result,void *userData){
 adapter=result;
-deviceDescriptor.requiredFeatures=WGPU_FEATURE_TIMESTAMP_QUERY;
 wgpu_adapter_request_device_async(adapter,&deviceDescriptor,ObtainedWebGpuDevice,0);
 }
 
