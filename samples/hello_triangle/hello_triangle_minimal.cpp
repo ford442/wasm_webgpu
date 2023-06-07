@@ -94,7 +94,7 @@ std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
 std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 
-wgpu_encoder_set_bind_group(encoder,0,bindGroup,0,0);
+wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
