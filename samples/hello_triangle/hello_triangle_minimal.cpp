@@ -102,12 +102,12 @@ uint32_t workgroupSize = 32;
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 std::cout << "inputBuffer: " << inputBuffer << std::endl;
 std::cout << "input: " << input[0] << std::endl;
+std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
+wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
 std::cout << "dispatch workgroups:" << workgroupCount << ",1,1" << std::endl;
 wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_t(1),uint32_t(1));
 	// copy output buff
-std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
-wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
-std::cout << "at wgpu_command_encoder_finish" << std::endl;
+std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
