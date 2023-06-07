@@ -53,7 +53,7 @@ bufferDescriptor.size=bufferSize;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_MAP_READ|WGPU_BUFFER_USAGE_COPY_DST;
 mapBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_SRC;
-bufferDescriptor.mappedAtCreation=true;
+bufferDescriptor.mappedAtCreation=false;
 bufferDescriptor.usage=WGPU_BUFFER_USAGE_STORAGE|WGPU_BUFFER_USAGE_COPY_DST;
 inputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
 outputBuffer=wgpu_device_create_buffer(device,&bufferDescriptor);
@@ -109,14 +109,6 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_
 	// copy output buff
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
-WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
-std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
-std::cout << "mapBuffer:" << mapBuffer << std::endl;
-std::cout << "outputBuffer:" << outputBuffer << std::endl;
-std::cout << "mapBuffer:" << mapBuffer << std::endl;
-std::cout << "outputBuffer:" << outputBuffer << std::endl;
-std::cout << "wgpu_encoder_end" << std::endl;
-std::cout << "wgpu_buffer_map_async" << std::endl;
 
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
@@ -134,6 +126,15 @@ std::cout << "inputBuffer read_mapped_range" << std::endl;
 std::cout << getOutput3 << std::endl;
 wgpu_encoder_end(computePass);
 };
+
+WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
+std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
+std::cout << "mapBuffer:" << mapBuffer << std::endl;
+std::cout << "outputBuffer:" << outputBuffer << std::endl;
+std::cout << "mapBuffer:" << mapBuffer << std::endl;
+std::cout << "outputBuffer:" << outputBuffer << std::endl;
+std::cout << "wgpu_encoder_end" << std::endl;
+std::cout << "wgpu_buffer_map_async" << std::endl;
 WGPU_MAP_MODE_FLAGS mode1=0x1; // WGPU_MAP_MODE_READ
 void *userDataA;
 wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferSize);
