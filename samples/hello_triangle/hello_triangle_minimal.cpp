@@ -62,6 +62,16 @@ WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
 	// shaderModuleDescriptor.code=computeShader;
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
+std::cout << "create bindgroup layout" << std::endl;
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
+bindGroupLayoutEntry1.binding=0;
+bindGroupLayoutEntry1.type=1;
+bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
+std::cout << "create bindgroup" << std::endl;
+WGpuBindGroupEntry bindGroupEntry1={};
+bindGroupEntry1.binding=0;
+bindGroupEntry1.resource=uniBuffer;
+WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
 const char * Entry="computeStuff";
 std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
 computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLayout,NULL,0);
@@ -78,16 +88,7 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
-std::cout << "create bindgroup layout" << std::endl;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntry1={};
-bindGroupLayoutEntry1.binding=0;
-bindGroupLayoutEntry1.type=1;
-bindGroupLayout=wgpu_device_create_bind_group_layout(device,&bindGroupLayoutEntry1,1);
-std::cout << "create bindgroup" << std::endl;
-WGpuBindGroupEntry bindGroupEntry1={};
-bindGroupEntry1.binding=0;
-bindGroupEntry1.resource=uniBuffer;
-WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,&bindGroupEntry1,1);
+
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 
