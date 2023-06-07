@@ -60,8 +60,6 @@ bufferDescriptor.usage=WGPU_BUFFER_USAGE_UNIFORM|WGPU_BUFFER_USAGE_COPY_DST;
 for(int i=0;i<input.size();++i){
 input[i]=21.0021f;
 }
-std::cout << "not skipping input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 shaderModuleDescriptor={computeShader,0,NULL};
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
@@ -109,8 +107,11 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,uint32_t(32));
 	// copy output buff
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
+	
 queue=wgpu_device_get_queue(device);
-
+std::cout << "not skipping input buffer" << std::endl;
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+	
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
