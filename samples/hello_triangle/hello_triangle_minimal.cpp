@@ -78,16 +78,18 @@ bindGroupLayoutEntries[1].visibility=WGPU_SHADER_STAGE_COMPUTE;
 bindGroupLayoutEntries[1].type=1;
 bindGroupLayoutEntries[1].layout.buffer=bufferBindingLayout2;
 bindGroupLayout=wgpu_device_create_bind_group_layout(device,bindGroupLayoutEntries,2);
+	const char * Entry="computeStuff";
+std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
+pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
+computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
+	
 std::cout << "create bindgroup" << std::endl;
 bindGroupEntry[0].binding=0;
 bindGroupEntry[0].resource=inputBuffer;
 bindGroupEntry[1].binding=1;
 bindGroupEntry[1].resource=outputBuffer;
 bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,bindGroupEntry,2);
-const char * Entry="computeStuff";
-std::cout << "wgpu_device_create_compute_pipeline" << std::endl;
-pipelineLayout=wgpu_device_create_pipeline_layout(device,&bindGroupLayout,1);
-computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,pipelineLayout,NULL,0);
+
 	
 std::cout << "creating encoder" << std::endl;
 encoder=wgpu_device_create_command_encoder(device,0);
