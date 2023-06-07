@@ -80,9 +80,9 @@ std::cout << "create bindgroup" << std::endl;
 WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
-	
+
 std::cout << "dispatch workgroups" << std::endl;
-wgpu_compute_pass_encoder_dispatch_workgroups(encoder,onE,onE,onE);
+wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,onE,onE);
 // pass.dispatchWorkgroups(workgroupCount, 1, 1);
 // pass.end();
 // encoder.copyBufferToBuffer(outputBuffer,0,mapBuffer,0,bufferSize);
