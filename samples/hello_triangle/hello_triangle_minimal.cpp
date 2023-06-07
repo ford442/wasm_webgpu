@@ -57,6 +57,7 @@ input[i]=0.1f*i;
 std::cout << "not skipping input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
 WGpuShaderModuleDescriptor shaderModuleDescriptor={computeShader,0,NULL};
+	// shaderModuleDescriptor.code=computeShader;
 std::cout << "wgpu_device_create_shader_module" << std::endl;
 WGpuShaderModule cs=wgpu_device_create_shader_module(device,&shaderModuleDescriptor);
 const char * Entry="computeStuff";
@@ -112,7 +113,6 @@ device=result;
 raf(device);
 }
 
-shaderModuleDescriptor.code=computeShader;
 
 //   WGpuShaderModule vs = wgpu_device_create_shader_module(device, &shaderModuleDesc);
 //   shaderModuleDesc.code = fragmentShader;
