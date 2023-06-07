@@ -67,7 +67,6 @@ computePipeline=wgpu_device_create_compute_pipeline(device,cs,Entry,bindGroupLay
 WGpuCommandEncoder encoder=wgpu_device_create_command_encoder(device,0);
 std::cout << "wgpu_command_encoder_begin_compute_pass" << std::endl;
 WGpuComputePassEncoder computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescriptor);
-
 std::cout << "wgpu_compute_pass_encoder_set_pipeline" << std::endl;
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 //    wgpu_render_pass_encoder_draw(pass, 3, 1, 0, 0);
@@ -77,6 +76,10 @@ uint32_t workgroupSize = 32;
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount = (invocationCount + workgroupSize - 1) / workgroupSize;
 uint32_t onE=1;
+std::cout << "create bindgroup" << std::endl;
+WGpuBindGroup bindGroup=wgpu_device_create_bind_group(device,bindGroupLayout,NULL,0);
+
+	
 std::cout << "inputBuffer:\n" << std::endl;
 std::cout << inputBuffer << std::endl;
 std::cout << "dispatch workgroups" << std::endl;
