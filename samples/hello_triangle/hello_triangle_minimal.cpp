@@ -128,9 +128,11 @@ std::cout << output << std::endl;
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
 std::cout << "at wgpu_queue_submit_one" << std::endl;
 wgpu_queue_submit_one(queue,commandBuffer);
-std::cout << "after wgpu_queue_submit_one -> wgpu_encoder_end" << std::endl;
+std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
+void * getOutput={};
+wgpu_buffer_read_mapped_range(mapBuffer,0,0,&getOutput,bufferSize);
+std::cout << " wgpu_encoder_end" << std::endl;
 wgpu_encoder_end(computePass);
-//	wgpu_buffer_read_mapped_range(outputBuffer
 return;
 }
 
