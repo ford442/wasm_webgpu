@@ -3,11 +3,11 @@
 #include <iostream>
 #include <assert.h>
 
-WGpuAdapter adapter=nullptr;
+WGpuAdapter adapter=0;
 // WGpuCanvasContext canvasContext;
-WGpuDevice device=nullptr;
+WGpuDevice device=0;
 // WGpuRenderPipeline renderPipeline;
-WGpuBindGroupLayoutEntry bindGroupLayoutEntry=nullptr;
+WGpuBindGroupLayoutEntry bindGroupLayoutEntry;
 WGpuBindGroupLayout bindGroupLayout=0;
 WGpuComputePipeline computePipeline=nullptr;
 
