@@ -110,8 +110,6 @@ wgpu_compute_pass_encoder_dispatch_workgroups(computePass,workgroupCount,uint32_
 std::cout << "at commandBuffer=wgpu_encoder_finish(encoder);" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
 
-
-
 WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
@@ -134,8 +132,8 @@ void *userDataA;
 wgpu_buffer_map_async(mapBuffer,mapCallback,&userDataA,mode1,uint32_t(0),bufferSize);
 };
 wgpu_queue_set_on_submitted_work_done_callback(queue,onComputeDone,0);
-std::cout << "at wgpu_queue_submit_one" << std::endl;
-wgpu_queue_submit_one(queue,commandBuffer);
+std::cout << "at wgpu_queue_submit_one_and_destroy" << std::endl;
+wgpu_queue_submit_one_and_destroy(queue,commandBuffer);
 
 return;
 }
