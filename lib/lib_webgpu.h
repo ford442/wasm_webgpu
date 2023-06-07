@@ -209,6 +209,7 @@ enum GPUFeatureName {
     "timestamp-query",
     "indirect-first-instance",
     "shader-f16",
+    "bgra8unorm-storage",
     "rg11b10ufloat-renderable"
 };
 */
@@ -221,7 +222,8 @@ typedef int WGPU_FEATURES_BITFIELD;
 #define WGPU_FEATURE_TIMESTAMP_QUERY            0x20
 #define WGPU_FEATURE_INDIRECT_FIRST_INSTANCE    0x40
 #define WGPU_FEATURE_SHADER_F16                 0x80
-#define WGPU_FEATURE_RG11B10UFLOAT_RENDERABLE  0x100
+#define WGPU_FEATURE_BGRA8UNORM_STORAGE        0x100
+#define WGPU_FEATURE_RG11B10UFLOAT_RENDERABLE  0x200
 
 /*
 // WebGPU reuses the color space enum from the HTML Canvas specification:
@@ -491,17 +493,17 @@ EM_BOOL wgpu_is_buffer(WGpuObjectBase object);
 
 // TODO: Add error status to map callback for when mapAsync() promise rejects.
 typedef void (*WGpuBufferMapCallback)(WGpuBuffer buffer, void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset, double_int53_t size);
-#define WGPU_MAX_SIZE -1
-void wgpu_buffer_map_async(WGpuBuffer buffer, WGpuBufferMapCallback callback, void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAX_SIZE));
+#define WGPU_MAP_MAX_LENGTH -1
+void wgpu_buffer_map_async(WGpuBuffer buffer, WGpuBufferMapCallback callback, void *userData, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAP_MAX_LENGTH));
 
 // Maps the given WGpuBuffer synchronously. Requires building with -sASYNCIFY=1 linker flag to work.
-void wgpu_buffer_map_sync(WGpuBuffer buffer, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAX_SIZE));
+void wgpu_buffer_map_sync(WGpuBuffer buffer, WGPU_MAP_MODE_FLAGS mode, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAP_MAX_LENGTH));
 
 #define WGPU_BUFFER_GET_MAPPED_RANGE_FAILED ((double_int53_t)-1)
 
 // Calls buffer.getMappedRange(). Returns `startOffset`, which is used as an ID token to wgpu_buffer_read/write_mapped_range().
 // If .getMappedRange() fails, the value WGPU_BUFFER_GET_MAPPED_RANGE_FAILED (-1) will be returned.
-double_int53_t wgpu_buffer_get_mapped_range(WGpuBuffer buffer, double_int53_t startOffset, double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAX_SIZE));
+double_int53_t wgpu_buffer_get_mapped_range(WGpuBuffer buffer, double_int53_t startOffset, double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAP_MAX_LENGTH));
 void wgpu_buffer_read_mapped_range(WGpuBuffer buffer, double_int53_t startOffset, double_int53_t subOffset, void *dst NOTNULL, double_int53_t size);
 void wgpu_buffer_write_mapped_range(WGpuBuffer buffer, double_int53_t startOffset, double_int53_t subOffset, const void *src NOTNULL, double_int53_t size);
 void wgpu_buffer_unmap(WGpuBuffer buffer);
@@ -1234,7 +1236,6 @@ typedef struct WGpuTextureBindingLayout
 {
   WGPU_TEXTURE_SAMPLE_TYPE sampleType;
   WGPU_TEXTURE_VIEW_DIMENSION viewDimension;
-  EM_BOOL multisampled;
 } WGpuTextureBindingLayout;
 extern const WGpuTextureBindingLayout WGPU_TEXTURE_BINDING_LAYOUT_DEFAULT_INITIALIZER;
 
@@ -1457,7 +1458,7 @@ enum GPUAutoLayoutMode {
 };
 */
 typedef int WGPU_AUTO_LAYOUT_MODE;
-#define WGPU_AUTO_LAYOUT_MODE_NO_HINT 0 // In shader compilation, specifies that no hint is to be passed. In pipeline creation, means same as WGPU_AUTO_LAYOUT_MODE_AUTO.
+#define WGPU_AUTO_LAYOUT_MODE_NO_HINT 0 // In shader compilation, specifies that no hint is to be passed. Invalid to be used in pipeline creation.
 #define WGPU_AUTO_LAYOUT_MODE_AUTO    1 // In shader compilation, specifies that the hint { layout: 'auto' } is to be passed. In pipeline creation, uses automatic layout creation.
 
 /*
@@ -2205,8 +2206,8 @@ typedef WGpuObjectBase WGpuRenderCommandsMixin;
 EM_BOOL wgpu_is_render_commands_mixin(WGpuObjectBase object);
 
 #define wgpu_render_commands_mixin_set_pipeline wgpu_encoder_set_pipeline
-void wgpu_render_commands_mixin_set_index_buffer(WGpuRenderCommandsMixin renderCommandsMixin, WGpuBuffer buffer, WGPU_INDEX_FORMAT indexFormat, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAX_SIZE));
-void wgpu_render_commands_mixin_set_vertex_buffer(WGpuRenderCommandsMixin renderCommandsMixin, int32_t slot, WGpuBuffer buffer, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(WGPU_MAX_SIZE));
+void wgpu_render_commands_mixin_set_index_buffer(WGpuRenderCommandsMixin renderCommandsMixin, WGpuBuffer buffer, WGPU_INDEX_FORMAT indexFormat, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(-1));
+void wgpu_render_commands_mixin_set_vertex_buffer(WGpuRenderCommandsMixin renderCommandsMixin, int32_t slot, WGpuBuffer buffer, double_int53_t offset _WGPU_DEFAULT_VALUE(0), double_int53_t size _WGPU_DEFAULT_VALUE(-1));
 
 void wgpu_render_commands_mixin_draw(WGpuRenderCommandsMixin renderCommandsMixin, uint32_t vertexCount, uint32_t instanceCount _WGPU_DEFAULT_VALUE(1), uint32_t firstVertex _WGPU_DEFAULT_VALUE(0), uint32_t firstInstance _WGPU_DEFAULT_VALUE(0));
 void wgpu_render_commands_mixin_draw_indexed(WGpuRenderCommandsMixin renderCommandsMixin, uint32_t indexCount, uint32_t instanceCount _WGPU_DEFAULT_VALUE(1), uint32_t firstVertex _WGPU_DEFAULT_VALUE(0), int32_t baseVertex _WGPU_DEFAULT_VALUE(0), uint32_t firstInstance _WGPU_DEFAULT_VALUE(0));
@@ -2319,9 +2320,8 @@ enum GPULoadOp {
 };
 */
 typedef int WGPU_LOAD_OP;
-#define WGPU_LOAD_OP_UNDEFINED 0
-#define WGPU_LOAD_OP_LOAD 1
-#define WGPU_LOAD_OP_CLEAR 2
+#define WGPU_LOAD_OP_LOAD 0
+#define WGPU_LOAD_OP_CLEAR 1
 
 /*
 enum GPUStoreOp {
@@ -2330,9 +2330,8 @@ enum GPUStoreOp {
 };
 */
 typedef int WGPU_STORE_OP;
-#define WGPU_STORE_OP_UNDEFINED 0
-#define WGPU_STORE_OP_STORE 1
-#define WGPU_STORE_OP_DISCARD 2
+#define WGPU_STORE_OP_STORE 0
+#define WGPU_STORE_OP_DISCARD 1
 
 /*
 dictionary GPURenderPassLayout : GPUObjectDescriptorBase {
