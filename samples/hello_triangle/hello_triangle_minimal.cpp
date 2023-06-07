@@ -115,10 +115,10 @@ std::cout << "at wgpu_command_encoder_copy_buffer_to_buffer" << std::endl;
 wgpu_command_encoder_copy_buffer_to_buffer(encoder,outputBuffer,0,mapBuffer,0,bufferSize);
 std::cout << "at wgpu_command_encoder_finish" << std::endl;
 commandBuffer=wgpu_encoder_finish(encoder);
-WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue, void *userData){
+WGpuOnSubmittedWorkDoneCallback onComputeDone=[](WGpuQueue queue,void *userData){
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 };
-WGpuBufferMapCallback onBuffer=[](WGpuBuffer mapBuffer,0,WGPU_MAP_MODE_READ,0,bufferSize){
+WGpuBufferMapCallback onBuffer=[](WGpuBuffer mapBuffer,void *userData,WGPU_MAP_MODE_READ,0,bufferSize){
 std::cout << "output: "<< std::endl;
 };
 const float* output=wgpu_buffer_map_async(mapBuffer,onBuffer,0,WGPU_MAP_MODE_READ,0,bufferSize);
