@@ -47,7 +47,7 @@ if (EMSCRIPTEN)
 
 	append_compiler_flags("-Wall")
 
-	append_linker_flags("-Wall")
+	append_linker_flags("-Wall -jsDWEBGPU_DEBUG=1")
 
 	append_linker_flags("--js-library ${LIB_DIR}/lib_webgpu.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/lib_demo.js")
