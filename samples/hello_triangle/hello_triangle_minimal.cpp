@@ -43,11 +43,11 @@ const char *computeShader =
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
 "}"
-"@compute @workgroup_size(32)"
+"@compute @workgroup_size(1)"
 "fn computeStuff(@builtin(global_invocation_id) global_id: vec3<u32>,@builtin(local_invocation_id) local_id: vec3<u32>) {"
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
-"outputBuffer[0] = inputBuffer[1];"
+"outputBuffer[0] = inputBuffer[0];"
 // "mapBuffer[0] = outputBuffer[0];"
 "}";
 
@@ -118,7 +118,7 @@ wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);
 // std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
 uint32_t invocationCount=bufferSize/sizeof(unsigned int);
-uint32_t workgroupSize=32;
+uint32_t workgroupSize=1;
 queue=wgpu_device_get_queue(device);
 std::cout << "filling input buffer" << std::endl;
 wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(unsigned int));
