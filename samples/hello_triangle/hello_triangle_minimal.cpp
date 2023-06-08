@@ -34,7 +34,7 @@ WGpuDeviceDescriptor deviceDescriptor={};
 WGpuQuerySet querySet=0;
 void *userDataA;
 
-int bufferSize = 64 * sizeof(unsigned int);
+unsigned int bufferSize = 64 * sizeof(unsigned int);
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<u32,64>;"
@@ -117,11 +117,11 @@ computePass=wgpu_command_encoder_begin_compute_pass(encoder,&computePassDescript
 wgpu_compute_pass_encoder_set_pipeline(computePass,computePipeline);	
 // std::cout << "wgpu_encoder_set_bind_group" << std::endl;
 wgpu_encoder_set_bind_group(computePass,0,bindGroup,0,0);
-uint32_t invocationCount=bufferSize/sizeof(float);
+uint32_t invocationCount=bufferSize/sizeof(unsigned int);
 uint32_t workgroupSize=32;
 queue=wgpu_device_get_queue(device);
 std::cout << "filling input buffer" << std::endl;
-wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(float));
+wgpu_queue_write_buffer(queue,inputBuffer,0,input.data(),input.size()*sizeof(unsigned int));
 	// This ceils invocationCount / workgroupSize
 uint32_t workgroupCount=(invocationCount+workgroupSize-1)/workgroupSize;
 std::cout << "inputBuffer: " << inputBuffer << std::endl;
