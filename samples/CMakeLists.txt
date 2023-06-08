@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(wasm_webgpu)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
-  set(CMAKE_BUILD_TYPE "Debug") # Default to Debug build if not specified
+  set(CMAKE_BUILD_TYPE "Release") # Default to Debug build if not specified
 endif()
 
 find_program(CCACHE_PROGRAM ccache)
@@ -46,11 +46,8 @@ if (EMSCRIPTEN)
 	set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
 	append_compiler_flags("-Wall")
-	append_compiler_flags_debug("-g3")
 
 	append_linker_flags("-Wall")
-	append_linker_flags_debug("-g3")
-	append_linker_flags_debug("-sASSERTIONS=1 -jsDWEBGPU_DEBUG=1")
 
 	append_linker_flags("--js-library ${LIB_DIR}/lib_webgpu.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/lib_demo.js")
@@ -68,9 +65,6 @@ if (EMSCRIPTEN)
 
 	#append_linker_flags("-sMAXIMUM_MEMORY=4GB")
 
-	# Manual debugging:
-	#append_linker_flags("-g3 -sSINGLE_FILE=1")
-
 	append_linker_flags_opts("--closure 0")
 
 	append_linker_flags_minsizerel("-Oz")
@@ -81,36 +75,5 @@ include_directories("${COMMON_DIR}")
 
 add_library(webgpu STATIC ${LIB_DIR}/lib_webgpu.cpp ${LIB_DIR}/lib_webgpu_cpp20.cpp)
 
-add_executable(clear_screen clear_screen/clear_screen.c)
-target_link_libraries(clear_screen webgpu)
-
-add_executable(clear_screen_sync clear_screen/clear_screen_sync.c)
-target_link_libraries(clear_screen_sync webgpu)
-
-# Enable ASYNCIFY for clear_screen_sync example.
-target_link_options(clear_screen_sync PRIVATE "-sASYNCIFY=1")
-# Register the functions that need asyncifying. (see https://github.com/emscripten-core/emscripten/issues/15746)
-target_link_options(clear_screen_sync PRIVATE "-sASYNCIFY_IMPORTS=['navigator_gpu_request_adapter_sync','navigator_gpu_request_adapter_sync_simple','wgpu_adapter_request_device_sync','wgpu_adapter_request_device_sync_simple','wgpu_buffer_map_sync']")
-
-# Currently ASYNCIFY does not support MINIMAL_RUNTIME, so have to disable it for this example.
-target_link_options(clear_screen_sync PRIVATE "-sMINIMAL_RUNTIME=0")
-target_link_options(clear_screen_sync PRIVATE "--shell-file=${EMSCRIPTEN_ROOT_PATH}/src/shell.html")
-
-
 add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.cpp)
 target_link_libraries(hello_triangle_minimal webgpu)
-
-add_executable(hello_triangle_verbose hello_triangle/hello_triangle_verbose.c)
-target_link_libraries(hello_triangle_verbose webgpu)
-
-add_executable(vertex_buffer vertex_buffer/vertex_buffer.c)
-target_link_libraries(vertex_buffer webgpu)
-
-add_executable(gpu_oom gpu_oom/gpu_oom.c)
-target_link_libraries(gpu_oom webgpu)
-
-add_executable(texture texture/texture.c)
-target_link_libraries(texture webgpu)
-
-add_executable(failing_shader_compilation failing_shader_compilation/failing_shader_compilation.c)
-target_link_libraries(failing_shader_compilation webgpu)
