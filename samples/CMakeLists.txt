@@ -43,11 +43,8 @@ cmake_path(SET LIB_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/../lib")
 cmake_path(SET COMMON_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/common")
 
 if (EMSCRIPTEN)
-	set(CMAKE_EXECUTABLE_SUFFIX ".html")
-
-
+	set(CMAKE_EXECUTABLE_SUFFIX ".js")
 	append_linker_flags("-jsDWEBGPU_DEBUG=1")
-
 	append_linker_flags("--js-library ${LIB_DIR}/lib_webgpu.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/lib_demo.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/library_miniprintf.js")
@@ -55,11 +52,11 @@ if (EMSCRIPTEN)
 	append_linker_flags("-sENVIRONMENT=web -sMIN_FIREFOX_VERSION=87 -sMIN_SAFARI_VERSION=140000 -sMIN_EDGE_VERSION=90 -sMIN_CHROME_VERSION=90")
 	append_linker_flags("-sTOTAL_STACK=1mb -sINITIAL_MEMORY=4mb")
 	append_linker_flags("-sALLOW_MEMORY_GROWTH=0")
-	append_linker_flags("-sUSE_SDL=0 -sFILESYSTEM=0 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=0")
+	append_linker_flags("-sFORCE_FILESYSTEM=1 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=0")
 	append_linker_flags("-lmath.js -lhtml5.js -lint53.js")
 	append_linker_flags("--closure-args=--externs=${LIB_DIR}/webgpu-closure-externs.js")
 
-	append_linker_flags("-sINITIAL_MEMORY=16MB -sMALLOC=emmalloc --memory-init-file 0")
+	append_linker_flags("-sINITIAL_MEMORY=2048MB -sMALLOC=emmalloc --memory-init-file 0")
 
 	append_linker_flags_opts("--closure 0")
 
