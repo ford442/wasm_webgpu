@@ -52,7 +52,7 @@ if (EMSCRIPTEN)
 	append_linker_flags("-sENVIRONMENT=web -sMIN_FIREFOX_VERSION=87 -sMIN_SAFARI_VERSION=140000 -sMIN_EDGE_VERSION=90 -sMIN_CHROME_VERSION=90")
 	append_linker_flags("-sTOTAL_STACK=1mb -sINITIAL_MEMORY=4mb")
 	append_linker_flags("-sALLOW_MEMORY_GROWTH=0")
-	append_linker_flags("-sFORCE_FILESYSTEM=1 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=0")
+	append_linker_flags("-sUSE_SDL=0 -sFILESYSTEM=0 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=0")
 	append_linker_flags("-lmath.js -lhtml5.js -lint53.js")
 	append_linker_flags("--closure-args=--externs=${LIB_DIR}/webgpu-closure-externs.js")
 
