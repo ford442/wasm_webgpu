@@ -53,7 +53,7 @@ const char *computeShader =
 
 void raf(WGpuDevice device){
 std::cout << "skipping querySet" << std::endl;
-std::vector<float>input(bufferSize/sizeof(float));
+std::vector<unsigned int>input(bufferSize/sizeof(unsigned int));
 // computePassDescriptor.timestampWrites=&timestampWrites;
 // computePassDescriptor.numTimestampWrites=0;
 bufferDescriptorI.mappedAtCreation=false;
