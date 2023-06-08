@@ -54,6 +54,7 @@ const char *computeShader =
 void raf(WGpuDevice device){
 std::cout << "skipping querySet" << std::endl;
 std::vector<float>input(bufferSize/sizeof(float));
+std::vector<float>output(bufferSize/sizeof(float));
 // computePassDescriptor.timestampWrites=&timestampWrites;
 // computePassDescriptor.numTimestampWrites=0;
 bufferDescriptorI.mappedAtCreation=false;
@@ -142,11 +143,10 @@ std::cout << "at computeDoneCall" << std::endl;
 WGpuBufferMapCallback mapCallback=[](WGpuBuffer buffer,void *userData,WGPU_MAP_MODE_FLAGS mode,double_int53_t offset,double_int53_t size){
 std::cout << "at mapCallback!" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
-auto getOutput = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
+auto getOutput.set( = wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
 std::cout << getOutput << std::endl;
-void * readOutput;
-wgpu_buffer_read_mapped_range(mapBuffer,getOutput,0,&readOutput,bufferSize);
-std::cout << &readOutput << std::endl;
+output=wgpu_buffer_read_mapped_range(mapBuffer,getOutput,0,&readOutput,bufferSize);
+std::cout << &output << std::endl;
 };
 std::cout << "at wgpu WGpuOnSubmittedWorkDoneCallback!" << std::endl;
 std::cout << "wgpu_buffer_map_async" << std::endl;
