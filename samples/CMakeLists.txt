@@ -55,7 +55,7 @@ if (EMSCRIPTEN)
 	append_linker_flags("-lmath.js -lhtml5.js -lint53.js")
 	append_linker_flags("--closure-args=--externs=${LIB_DIR}/webgpu-closure-externs.js")
 
-	append_linker_flags("-sPRECISE_F32=1 -sWASM_BIGINT=0 -sUSE_GLFW=0 -sMALLOC=emmalloc --memory-init-file 0 -DEMMALLOC_USE_64BIT_OPS=1")
+	append_linker_flags("-sPRECISE_F32=1 -sWASM_BIGINT=1 -sUSE_GLFW=0 -sMALLOC=emmalloc --memory-init-file 0 -DEMMALLOC_USE_64BIT_OPS=1")
 
 	append_linker_flags_opts("--closure 0")
 
