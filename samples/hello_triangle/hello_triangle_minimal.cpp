@@ -38,7 +38,7 @@ int bufferSize = 64 * sizeof(float);
 
 const char *computeShader =
 "@group(0) @binding(0) var<storage,read> inputBuffer: array<f32,64>;"
-"@group(0) @binding(1) var<storage,read_write> outputBuffer: array<f32,64>;"
+"@group(0) @binding(1) var<storage,read_write> outputBuffer: array<u32,64>;"
 // The function to evaluate for each element of the processed buffer
 "fn f(x: f32) -> f32 {"
 "return 2.0 * x + 0.42;"
@@ -47,7 +47,7 @@ const char *computeShader =
 "fn computeStuff(@builtin(global_invocation_id) global_id: vec3<u32>,@builtin(local_invocation_id) local_id: vec3<u32>) {"
     // Apply the function f to the buffer element at index id.x:
 // "outputBuffer[global_id.x] = f(inputBuffer[global_id.x]);"
-"outputBuffer[0] = 111.0;"
+"outputBuffer[0] = 1;"
 // "mapBuffer[0] = outputBuffer[0];"
 "}";
 
@@ -145,7 +145,7 @@ std::cout << "at mapCallback!" << std::endl;
 std::cout << "wgpu_buffer_read_mapped_range" << std::endl;
 auto output=wgpu_buffer_get_mapped_range(mapBuffer,uint32_t(0),bufferSize);
 std::cout << &output << std::endl;
-double * outputd;
+unsigned int * outputd;
 wgpu_buffer_read_mapped_range(mapBuffer,0,0,&outputd,bufferSize);
 std::cout << &outputd << std::endl;
 };
