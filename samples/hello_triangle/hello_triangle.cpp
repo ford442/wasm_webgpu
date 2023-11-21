@@ -1,10 +1,9 @@
+#include <vector>
 #include <assert.h>
 #include <stdio.h>
 #include <memory.h>
 #include <miniprintf.h>
 #include "lib_webgpu.h"
-
-using namespace std;
 
 WGpuAdapter adapter=0;
 WGpuDevice device=0;
@@ -56,8 +55,7 @@ const char *computeShader =
 
 void raf(WGpuDevice device){
 std::cout << "skipping querySet" << std::endl;
-// std::vector<unsigned int>input(bufferSize/sizeof(unsigned int));
-<unsigned int>input(bufferSize/sizeof(unsigned int));
+std::vector<unsigned int>input(bufferSize/sizeof(unsigned int));
 // computePassDescriptor.timestampWrites=&timestampWrites;
 // computePassDescriptor.numTimestampWrites=0;
 bufferDescriptorI.mappedAtCreation=false;
