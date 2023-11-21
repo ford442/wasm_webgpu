@@ -1,9 +1,7 @@
-#include <vector>
-#include <assert.h>
-#include <stdio.h>
-#include <memory.h>
-#include <miniprintf.h>
 #include "lib_webgpu.h"
+#include <vector>
+#include <iostream>
+#include <assert.h>
 
 WGpuAdapter adapter=0;
 WGpuDevice device=0;
