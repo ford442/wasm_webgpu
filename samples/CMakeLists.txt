@@ -44,7 +44,6 @@ cmake_path(SET COMMON_DIR NORMALIZE "${CMAKE_CURRENT_LIST_DIR}/common")
 
 if (EMSCRIPTEN)
 	set(CMAKE_EXECUTABLE_SUFFIX ".js")
-	append_linker_flags("-jsDWEBGPU_DEBUG=1")
 	append_linker_flags("--js-library ${LIB_DIR}/lib_webgpu.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/lib_demo.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/library_miniprintf.js")
@@ -57,7 +56,7 @@ if (EMSCRIPTEN)
 
 	append_linker_flags("-sINITIAL_MEMORY=16MB -sMALLOC=emmalloc --memory-init-file 0")
 
-	append_linker_flags_opts("--closure 0")
+	append_linker_flags_opts("--closure 1")
 
 endif()
 
