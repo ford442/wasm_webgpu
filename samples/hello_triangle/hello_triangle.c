@@ -4,6 +4,8 @@
 #include <miniprintf.h>
 #include "lib_webgpu.h"
 
+using namespace std;
+
 WGpuAdapter adapter=0;
 WGpuDevice device=0;
 WGpuBindGroupLayout bindGroupLayout=0;
