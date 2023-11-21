@@ -56,7 +56,7 @@ if (EMSCRIPTEN)
 
 	append_linker_flags("-sINITIAL_MEMORY=16MB -sMALLOC=emmalloc --memory-init-file 0")
 
-	append_linker_flags_opts("--closure 1")
+	append_linker_flags_opts("--closure 0")
 
 endif()
 
