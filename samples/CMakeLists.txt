@@ -65,5 +65,5 @@ include_directories("${COMMON_DIR}")
 
 add_library(webgpu STATIC ${LIB_DIR}/lib_webgpu.cpp ${LIB_DIR}/lib_webgpu_cpp20.cpp)
 
-add_executable(hello_triangle_minimal hello_triangle/hello_triangle_minimal.cpp)
+add_executable(hello_triangle_minimal hello_triangle/hello_triangle_verbose.c)
 target_link_libraries(hello_triangle_minimal webgpu)
