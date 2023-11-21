@@ -49,13 +49,13 @@ if (EMSCRIPTEN)
 	append_linker_flags("--js-library ${COMMON_DIR}/lib_demo.js")
 	append_linker_flags("--js-library ${COMMON_DIR}/library_miniprintf.js")
 	append_linker_flags("-sTEXTDECODER=2 -sABORTING_MALLOC=0 -sSUPPORT_ERRNO=0")
-	append_linker_flags("-sTOTAL_STACK=16mb -sINITIAL_MEMORY=64mb")
-	append_linker_flags("-sALLOW_MEMORY_GROWTH=0")
-	append_linker_flags("-sUSE_SDL=0 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=0")
+	append_linker_flags("-sTOTAL_STACK=16KB -sINITIAL_MEMORY=128KB")
+	append_linker_flags("-sALLOW_MEMORY_GROWTH=1")
+	append_linker_flags("-sUSE_SDL=0 -sFILESYSTEM=0 -sAUTO_JS_LIBRARIES=0 -sDISABLE_EXCEPTION_THROWING=1")
 	append_linker_flags("-lmath.js -lhtml5.js -lint53.js")
 	append_linker_flags("--closure-args=--externs=${LIB_DIR}/webgpu-closure-externs.js")
 
-	append_linker_flags("-sPRECISE_F32=1 -sWASM_BIGINT=0 -sUSE_GLFW=0 -sMALLOC=emmalloc --memory-init-file 0 -DEMMALLOC_USE_64BIT_OPS=1")
+	append_linker_flags("-sINITIAL_MEMORY=16MB -sMALLOC=emmalloc --memory-init-file 0")
 
 	append_linker_flags_opts("--closure 0")
 
