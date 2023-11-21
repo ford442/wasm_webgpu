@@ -1,3 +1,4 @@
+#include <vector>
 #include <assert.h>
 #include <stdio.h>
 #include <memory.h>
