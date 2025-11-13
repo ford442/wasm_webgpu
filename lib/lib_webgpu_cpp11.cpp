@@ -43,6 +43,7 @@ const WGpuTextureViewDescriptor WGPU_TEXTURE_VIEW_DESCRIPTOR_DEFAULT_INITIALIZER
   0, /* mipLevelCount */
   0, /* baseArrayLayer */
   0, /* arrayLayerCount */
+  "rgba" /* swizzle */
 };
 
 const WGpuExternalTextureDescriptor WGPU_EXTERNAL_TEXTURE_DESCRIPTOR_DEFAULT_INITIALIZER = {
@@ -91,7 +92,7 @@ const WGpuShaderModuleCompilationHint WGPU_SHADER_MODULE_COMPILATION_HINT_DEFAUL
 const WGpuCommandEncoderDescriptor WGPU_COMMAND_ENCODER_DESCRIPTOR_DEFAULT_INITIALIZER = {
 };
 
-const WGpuImageCopyBuffer WGPU_IMAGE_COPY_BUFFER_DEFAULT_INITIALIZER = {};
+const WGpuTexelCopyBufferInfo WGPU_TEXEL_COPY_BUFFER_INFO_DEFAULT_INITIALIZER = {};
 
 const WGpuComputePassTimestampWrites WGPU_COMPUTE_PASS_TIMESTAMP_WRITES_DEFAULT_INITIALIZER = {
   0, /* querySet */
@@ -259,7 +260,7 @@ extern const WGpuRenderPassColorAttachment WGPU_RENDER_PASS_COLOR_ATTACHMENT_DEF
   }
 };
 
-extern const WGpuImageCopyExternalImage WGPU_IMAGE_COPY_EXTERNAL_IMAGE_DEFAULT_INITIALIZER = {
+extern const WGpuCopyExternalImageSourceInfo WGPU_COPY_EXTERNAL_IMAGE_SOURCE_INFO_DEFAULT_INITIALIZER = {
   0, /* source */
   { /* origin */
       0,
@@ -268,7 +269,7 @@ extern const WGpuImageCopyExternalImage WGPU_IMAGE_COPY_EXTERNAL_IMAGE_DEFAULT_I
   false /* flipY */
 };
 
-extern const WGpuImageCopyTexture WGPU_IMAGE_COPY_TEXTURE_DEFAULT_INITIALIZER = {
+extern const WGpuTexelCopyTextureInfo WGPU_TEXEL_COPY_TEXTURE_INFO_DEFAULT_INITIALIZER = {
   0, /* texture */
   0, /* mipLevel */
   { /* origin */
@@ -279,7 +280,7 @@ extern const WGpuImageCopyTexture WGPU_IMAGE_COPY_TEXTURE_DEFAULT_INITIALIZER = 
   WGPU_TEXTURE_ASPECT_ALL /* aspect */
 };
 
-extern const WGpuImageCopyTextureTagged WGPU_IMAGE_COPY_TEXTURE_TAGGED_DEFAULT_INITIALIZER = {
+extern const WGpuCopyExternalImageDestInfo WGPU_COPY_EXTERNAL_IMAGE_DEST_INFO_DEFAULT_INITIALIZER = {
   0, /* texture */
   0, /* mipLevel */
   { /* origin */

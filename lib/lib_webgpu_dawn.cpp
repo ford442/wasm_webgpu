@@ -101,22 +101,30 @@ RuntimeStatic<std::map<void*, void*>> _webgpu_to_dawn;
 
 // Translate lib_webgpu enums to Dawn enums
 const WGPUFeatureName WGPU_FEATURES_BITFIELD_to_Dawn[] = {
+  WGPUFeatureName_CoreFeaturesAndLimits,
   WGPUFeatureName_DepthClipControl,
   WGPUFeatureName_Depth32FloatStencil8,
   WGPUFeatureName_TextureCompressionBC,
   WGPUFeatureName_Force32, // WGPU_FEATURE_TEXTURE_COMPRESSION_BC_SLICED_3D, no Dawn equivalent
   WGPUFeatureName_TextureCompressionETC2,
   WGPUFeatureName_TextureCompressionASTC,
+  WGPUFeatureName_TextureCompressionASTCSliced3D,
   WGPUFeatureName_TimestampQuery,
   WGPUFeatureName_IndirectFirstInstance,
   WGPUFeatureName_ShaderF16,
   WGPUFeatureName_RG11B10UfloatRenderable,
   WGPUFeatureName_BGRA8UnormStorage,
   WGPUFeatureName_Float32Filterable,
+  WGPUFeatureName_Float32Blendable,
   WGPUFeatureName_ClipDistances,
   WGPUFeatureName_DualSourceBlending,
+  WGPUFeatureName_Subgroups,
+  WGPUFeatureName_TextureFormatsTier1,
+  WGPUFeatureName_TextureFormatsTier2,
+  WGPUFeatureName_PrimitiveIndex,
+  WGPUFeatureName_TextureComponentSwizzle,
 };
-const int _wgpu_num_features = 13;
+const int _wgpu_num_features = 22;
 
 const WGPUPowerPreference WGPU_POWER_PREFERENCE_to_Dawn[] = {
   WGPUPowerPreference_Undefined,
@@ -166,52 +174,58 @@ WGPUTextureAspect WGPU_TEXTURE_ASPECT_to_Dawn[] = {
 #define wgpu_texture_aspect_to_dawn(aspect) WGPU_TEXTURE_ASPECT_to_Dawn[aspect]
 
 const WGPUTextureFormat WGPU_TEXTURE_FORMAT_to_Dawn[] = {
-  WGPUTextureFormat_Undefined, // WGPU_TEXTURE_FORMAT_INVALID 0
+  WGPUTextureFormat_Undefined, // WGPU_TEXTURE_FORMAT_INVALID
   // 8-bit formats
-  WGPUTextureFormat_R8Unorm, // WGPU_TEXTURE_FORMAT_R8UNORM 1
-  WGPUTextureFormat_R8Snorm, // WGPU_TEXTURE_FORMAT_R8SNORM 2
-  WGPUTextureFormat_R8Uint, // WGPU_TEXTURE_FORMAT_R8UINT 3
+  WGPUTextureFormat_R8Unorm, // WGPU_TEXTURE_FORMAT_R8UNORM
+  WGPUTextureFormat_R8Snorm, // WGPU_TEXTURE_FORMAT_R8SNORM
+  WGPUTextureFormat_R8Uint, // WGPU_TEXTURE_FORMAT_R8UINT
   WGPUTextureFormat_R8Sint, // WGPU_TEXTURE_FORMAT_R8SINT
   // 16-bit formats
-  WGPUTextureFormat_R16Uint, // WGPU_TEXTURE_FORMAT_R16UINT  5
-  WGPUTextureFormat_R16Sint, // WGPU_TEXTURE_FORMAT_R16SINT  6
-  WGPUTextureFormat_R16Float, // WGPU_TEXTURE_FORMAT_R16FLOAT 7
-  WGPUTextureFormat_RG8Unorm, // WGPU_TEXTURE_FORMAT_RG8UNORM 8
-  WGPUTextureFormat_RG8Snorm, // WGPU_TEXTURE_FORMAT_RG8SNORM 9
-  WGPUTextureFormat_RG8Uint, // WGPU_TEXTURE_FORMAT_RG8UINT  10
-  WGPUTextureFormat_RG8Sint, // WGPU_TEXTURE_FORMAT_RG8SINT  11
+  WGPUTextureFormat_R16Unorm, // WGPU_TEXTURE_FORMAT_R16UINT
+  WGPUTextureFormat_R16Snorm, // WGPU_TEXTURE_FORMAT_R16SINT
+  WGPUTextureFormat_R16Uint, // WGPU_TEXTURE_FORMAT_R16UINT
+  WGPUTextureFormat_R16Sint, // WGPU_TEXTURE_FORMAT_R16SINT
+  WGPUTextureFormat_R16Float, // WGPU_TEXTURE_FORMAT_R16FLOAT
+  WGPUTextureFormat_RG8Unorm, // WGPU_TEXTURE_FORMAT_RG8UNORM
+  WGPUTextureFormat_RG8Snorm, // WGPU_TEXTURE_FORMAT_RG8SNORM
+  WGPUTextureFormat_RG8Uint, // WGPU_TEXTURE_FORMAT_RG8UINT
+  WGPUTextureFormat_RG8Sint, // WGPU_TEXTURE_FORMAT_RG8SINT
   // 32-bit formats
-  WGPUTextureFormat_R32Uint, // WGPU_TEXTURE_FORMAT_R32UINT 12
-  WGPUTextureFormat_R32Sint, // WGPU_TEXTURE_FORMAT_R32SINT 13
-  WGPUTextureFormat_R32Float, // WGPU_TEXTURE_FORMAT_R32FLOAT 14
-  WGPUTextureFormat_RG16Uint, // WGPU_TEXTURE_FORMAT_RG16UINT 15
-  WGPUTextureFormat_RG16Sint, // WGPU_TEXTURE_FORMAT_RG16SINT 16
-  WGPUTextureFormat_RG16Float, // WGPU_TEXTURE_FORMAT_RG16FLOAT 17
-  WGPUTextureFormat_RGBA8Unorm, // WGPU_TEXTURE_FORMAT_RGBA8UNORM 18
-  WGPUTextureFormat_RGBA8UnormSrgb, // WGPU_TEXTURE_FORMAT_RGBA8UNORM_SRGB 19
-  WGPUTextureFormat_RGBA8Snorm, // WGPU_TEXTURE_FORMAT_RGBA8SNORM 20
-  WGPUTextureFormat_RGBA8Uint, // WGPU_TEXTURE_FORMAT_RGBA8UINT 21
-  WGPUTextureFormat_RGBA8Sint, // WGPU_TEXTURE_FORMAT_RGBA8SINT 22
-  WGPUTextureFormat_BGRA8Unorm, // WGPU_TEXTURE_FORMAT_BGRA8UNORM 23
-  WGPUTextureFormat_BGRA8UnormSrgb, // WGPU_TEXTURE_FORMAT_BGRA8UNORM_SRGB 24
+  WGPUTextureFormat_R32Uint, // WGPU_TEXTURE_FORMAT_R32UINT
+  WGPUTextureFormat_R32Sint, // WGPU_TEXTURE_FORMAT_R32SINT
+  WGPUTextureFormat_R32Float, // WGPU_TEXTURE_FORMAT_R32FLOAT
+  WGPUTextureFormat_RG16Unorm, // WGPU_TEXTURE_FORMAT_RG16UNORM
+  WGPUTextureFormat_RG16Snorm, // WGPU_TEXTURE_FORMAT_RG16SNORM
+  WGPUTextureFormat_RG16Uint, // WGPU_TEXTURE_FORMAT_RG16UINT
+  WGPUTextureFormat_RG16Sint, // WGPU_TEXTURE_FORMAT_RG16SINT
+  WGPUTextureFormat_RG16Float, // WGPU_TEXTURE_FORMAT_RG16FLOAT
+  WGPUTextureFormat_RGBA8Unorm, // WGPU_TEXTURE_FORMAT_RGBA8UNORM
+  WGPUTextureFormat_RGBA8UnormSrgb, // WGPU_TEXTURE_FORMAT_RGBA8UNORM_SRGB
+  WGPUTextureFormat_RGBA8Snorm, // WGPU_TEXTURE_FORMAT_RGBA8SNORM
+  WGPUTextureFormat_RGBA8Uint, // WGPU_TEXTURE_FORMAT_RGBA8UINT
+  WGPUTextureFormat_RGBA8Sint, // WGPU_TEXTURE_FORMAT_RGBA8SINT
+  WGPUTextureFormat_BGRA8Unorm, // WGPU_TEXTURE_FORMAT_BGRA8UNORM
+  WGPUTextureFormat_BGRA8UnormSrgb, // WGPU_TEXTURE_FORMAT_BGRA8UNORM_SRGB
   // Packed 32-bit formats
-  WGPUTextureFormat_RGB9E5Ufloat, // WGPU_TEXTURE_FORMAT_RGB9E5UFLOAT 25
-  WGPUTextureFormat_Undefined, // WGPU_TEXTURE_FORMAT_RGB10A2UINT 26
-  WGPUTextureFormat_RGB10A2Unorm, // WGPU_TEXTURE_FORMAT_RGB10A2UNORM 27
-  WGPUTextureFormat_RG11B10Ufloat, // WGPU_TEXTURE_FORMAT_RG11B10UFLOAT 28
+  WGPUTextureFormat_RGB9E5Ufloat, // WGPU_TEXTURE_FORMAT_RGB9E5UFLOAT
+  WGPUTextureFormat_Undefined, // WGPU_TEXTURE_FORMAT_RGB10A2UINT
+  WGPUTextureFormat_RGB10A2Unorm, // WGPU_TEXTURE_FORMAT_RGB10A2UNORM
+  WGPUTextureFormat_RG11B10Ufloat, // WGPU_TEXTURE_FORMAT_RG11B10UFLOAT
   // 64-bit formats
-  WGPUTextureFormat_RG32Uint, // WGPU_TEXTURE_FORMAT_RG32UINT 29
-  WGPUTextureFormat_RG32Sint, // WGPU_TEXTURE_FORMAT_RG32SINT 30
-  WGPUTextureFormat_RG32Float, // WGPU_TEXTURE_FORMAT_RG32FLOAT 31
-  WGPUTextureFormat_RGBA16Uint, // WGPU_TEXTURE_FORMAT_RGBA16UINT 32
-  WGPUTextureFormat_RGBA16Sint, // WGPU_TEXTURE_FORMAT_RGBA16SINT 33
-  WGPUTextureFormat_RGBA16Float, // WGPU_TEXTURE_FORMAT_RGBA16FLOAT 34
+  WGPUTextureFormat_RG32Uint, // WGPU_TEXTURE_FORMAT_RG32UINT
+  WGPUTextureFormat_RG32Sint, // WGPU_TEXTURE_FORMAT_RG32SINT
+  WGPUTextureFormat_RG32Float, // WGPU_TEXTURE_FORMAT_RG32FLOAT
+  WGPUTextureFormat_RGBA16Unorm, // WGPU_TEXTURE_FORMAT_RGBA16UNORM
+  WGPUTextureFormat_RGBA16Snorm, // WGPU_TEXTURE_FORMAT_RGBA16SNORM
+  WGPUTextureFormat_RGBA16Uint, // WGPU_TEXTURE_FORMAT_RGBA16UINT
+  WGPUTextureFormat_RGBA16Sint, // WGPU_TEXTURE_FORMAT_RGBA16SINT
+  WGPUTextureFormat_RGBA16Float, // WGPU_TEXTURE_FORMAT_RGBA16FLOAT
   // 128-bit formats
-  WGPUTextureFormat_RGBA32Uint, // WGPU_TEXTURE_FORMAT_RGBA32UINT 35
-  WGPUTextureFormat_RGBA32Sint, // WGPU_TEXTURE_FORMAT_RGBA32SINT 36
-  WGPUTextureFormat_RGBA32Float, // WGPU_TEXTURE_FORMAT_RGBA32FLOAT 37
+  WGPUTextureFormat_RGBA32Uint, // WGPU_TEXTURE_FORMAT_RGBA32UINT
+  WGPUTextureFormat_RGBA32Sint, // WGPU_TEXTURE_FORMAT_RGBA32SINT
+  WGPUTextureFormat_RGBA32Float, // WGPU_TEXTURE_FORMAT_RGBA32FLOAT
   // Depth/stencil formats
-  WGPUTextureFormat_Stencil8, // WGPU_TEXTURE_FORMAT_STENCIL8 38
+  WGPUTextureFormat_Stencil8, // WGPU_TEXTURE_FORMAT_STENCIL8
   WGPUTextureFormat_Depth16Unorm,
   WGPUTextureFormat_Depth24Plus,
   WGPUTextureFormat_Depth24PlusStencil8,
@@ -288,6 +302,8 @@ const WGPU_TEXTURE_FORMAT Dawn_to_WGPU_TEXTURE_FORMAT[] = {
   WGPU_TEXTURE_FORMAT_R8UINT,
   WGPU_TEXTURE_FORMAT_R8SINT,
     // 16-bit formats
+  WGPU_TEXTURE_FORMAT_R16UNORM, // Supported with "texture-formats-tier1"
+  WGPU_TEXTURE_FORMAT_R16SNORM, // Supported with "texture-formats-tier1"
   WGPU_TEXTURE_FORMAT_R16UINT,
   WGPU_TEXTURE_FORMAT_R16SINT,
   WGPU_TEXTURE_FORMAT_R16FLOAT,
@@ -296,9 +312,11 @@ const WGPU_TEXTURE_FORMAT Dawn_to_WGPU_TEXTURE_FORMAT[] = {
   WGPU_TEXTURE_FORMAT_RG8UINT,
   WGPU_TEXTURE_FORMAT_RG8SINT,
     // 32-bit formats
-  WGPU_TEXTURE_FORMAT_R32FLOAT,
   WGPU_TEXTURE_FORMAT_R32UINT,
   WGPU_TEXTURE_FORMAT_R32SINT,
+  WGPU_TEXTURE_FORMAT_R32FLOAT,
+  WGPU_TEXTURE_FORMAT_RG16UNORM, // Supported with "texture-formats-tier1"
+  WGPU_TEXTURE_FORMAT_RG16SNORM, // Supported with "texture-formats-tier1"
   WGPU_TEXTURE_FORMAT_RG16UINT,
   WGPU_TEXTURE_FORMAT_RG16SINT,
   WGPU_TEXTURE_FORMAT_RG16FLOAT,
@@ -315,9 +333,11 @@ const WGPU_TEXTURE_FORMAT Dawn_to_WGPU_TEXTURE_FORMAT[] = {
   WGPU_TEXTURE_FORMAT_RG11B10UFLOAT,
   WGPU_TEXTURE_FORMAT_RGB9E5UFLOAT,
     // 64-bit formats
-  WGPU_TEXTURE_FORMAT_RG32FLOAT,
   WGPU_TEXTURE_FORMAT_RG32UINT,
   WGPU_TEXTURE_FORMAT_RG32SINT,
+  WGPU_TEXTURE_FORMAT_RG32FLOAT,
+  WGPU_TEXTURE_FORMAT_RGBA16UNORM,
+  WGPU_TEXTURE_FORMAT_RGBA16SNORM,
   WGPU_TEXTURE_FORMAT_RGBA16UINT,
   WGPU_TEXTURE_FORMAT_RGBA16SINT,
   WGPU_TEXTURE_FORMAT_RGBA16FLOAT,
@@ -541,22 +561,31 @@ const WGPUIndexFormat WGPU_INDEX_FORMAT_to_Dawn[] = {
 
 const WGPUVertexFormat WGPU_VERTEX_FORMAT_to_Dawn[] = {
   WGPUVertexFormat_Force32,
+  WGPUVertexFormat_Uint8,
   WGPUVertexFormat_Uint8x2,
   WGPUVertexFormat_Uint8x4,
+  WGPUVertexFormat_Sint8,
   WGPUVertexFormat_Sint8x2,
   WGPUVertexFormat_Sint8x4,
+  WGPUVertexFormat_Unorm8,
   WGPUVertexFormat_Unorm8x2,
   WGPUVertexFormat_Unorm8x4,
+  WGPUVertexFormat_Snorm8,
   WGPUVertexFormat_Snorm8x2,
   WGPUVertexFormat_Snorm8x4,
+  WGPUVertexFormat_Uint16,
   WGPUVertexFormat_Uint16x2,
   WGPUVertexFormat_Uint16x4,
+  WGPUVertexFormat_Sint16,
   WGPUVertexFormat_Sint16x2,
   WGPUVertexFormat_Sint16x4,
+  WGPUVertexFormat_Unorm16,
   WGPUVertexFormat_Unorm16x2,
   WGPUVertexFormat_Unorm16x4,
+  WGPUVertexFormat_Snorm16,
   WGPUVertexFormat_Snorm16x2,
   WGPUVertexFormat_Snorm16x4,
+  WGPUVertexFormat_Float16,
   WGPUVertexFormat_Float16x2,
   WGPUVertexFormat_Float16x4,
   WGPUVertexFormat_Float32,
@@ -572,8 +601,9 @@ const WGPUVertexFormat WGPU_VERTEX_FORMAT_to_Dawn[] = {
   WGPUVertexFormat_Sint32x3,
   WGPUVertexFormat_Sint32x4,
   WGPUVertexFormat_Unorm10_10_10_2
+  WGPUVertexFormat_Unorm8x4_bgra
 };
-#define wgpu_vertex_format_to_dawn(format) (format == 0 ? WGPUVertexFormat_Force32 : WGPU_VERTEX_FORMAT_to_Dawn[format - (WGPU_VERTEX_FORMAT_UINT8X2 - 1)])
+#define wgpu_vertex_format_to_dawn(format) (format == 0 ? WGPUVertexFormat_Force32 : WGPU_VERTEX_FORMAT_to_Dawn[format - (WGPU_VERTEX_FORMAT_UINT8 - 1)])
 
 const WGPUVertexStepMode WGPU_VERTEX_STEP_MODE_to_Dawn[] = {
   WGPUVertexStepMode_VertexBufferNotUsed,
@@ -1072,11 +1102,6 @@ void wgpu_adapter_get_info(WGpuAdapter adapter, WGpuAdapterInfo *adapterInfo)
 {
   assert(wgpu_is_adapter(adapter));
   assert(false); /* TODO */
-}
-
-WGPU_BOOL wgpu_adapter_is_fallback_adapter(WGpuAdapter adapter) {
-  assert(wgpu_is_adapter(adapter));
-  return false; /* TODO */
 }
 
 void wgpu_adapter_request_device_async(WGpuAdapter adapter, const WGpuDeviceDescriptor* descriptor,
@@ -1891,6 +1916,7 @@ WGpuTextureView wgpu_texture_create_view(WGpuTexture texture, const WGpuTextureV
   _desc.baseArrayLayer = textureViewDesc->baseArrayLayer;
   _desc.arrayLayerCount = textureViewDesc->arrayLayerCount;
   _desc.aspect = wgpu_texture_aspect_to_dawn(textureViewDesc->aspect);
+  strcpy(_desc.swizzle, textureViewDesc->swizzle);
 
   WGPUTextureView textureView = wgpuTextureCreateView(_wgpu_get_dawn<WGPUTexture>(texture), &_desc);
   return _wgpu_store_and_set_parent(kWebGPUTextureView, textureView, texture);
@@ -2132,74 +2158,75 @@ void wgpu_command_encoder_copy_buffer_to_buffer(WGpuCommandEncoder commandEncode
   WGPUBuffer _source  = _wgpu_get_dawn<WGPUBuffer>(source);
   WGPUBuffer _destination = _wgpu_get_dawn<WGPUBuffer>(destination);
 
+  // TODO: if (size == WGPU_INFINITY) size = whole buffer size;
   wgpuCommandEncoderCopyBufferToBuffer(_commandEncoder, _source, (uint64_t)sourceOffset, _destination, (uint64_t)destinationOffset, (uint64_t)size);
 }
 
-// Helper Function for reading in WGpuImageCopyTexture-> dawn WGPUImageCopyTexture
-static void wgpuReadGpuImageCopyTexture(const WGpuImageCopyTexture* source, WGPUImageCopyTexture& output) {
+// Helper Function for reading in WGpuTexelCopyTextureInfo-> dawn WGPUTexelCopyTextureInfo
+static void wgpuReadGpuTexelCopyTextureInfo(const WGpuTexelCopyTextureInfo* source, WGPUTexelCopyTextureInfo& output) {
   output.texture = _wgpu_get_dawn<WGPUTexture>(source->texture);
   output.mipLevel = source->mipLevel;
   output.origin = { (uint32_t)source->origin.x, (uint32_t)source->origin.y, (uint32_t)source->origin.z };
   output.aspect = wgpu_texture_aspect_to_dawn(source->aspect);
 }
 
-// Helper Function for reading in WGpuImageCopyBuffer-> dawn WGPUImageCopyBuffer
-static void wgpuReadGpuImageCopyBuffer(const WGpuImageCopyBuffer* source, WGPUImageCopyBuffer& output) {
+// Helper Function for reading in WGpuTexelCopyBufferInfo-> dawn WGPUTexelCopyBufferInfo
+static void wgpuReadGpuTexelCopyBufferInfo(const WGpuTexelCopyBufferInfo* source, WGPUTexelCopyBufferInfo& output) {
   output.layout.offset = source->offset;
   output.layout.bytesPerRow = source->bytesPerRow;
   output.layout.rowsPerImage = source->rowsPerImage;
   output.buffer = _wgpu_get_dawn<WGPUBuffer>(source->buffer);
 }
 
-void wgpu_command_encoder_copy_buffer_to_texture(WGpuCommandEncoder commandEncoder, const WGpuImageCopyBuffer *source,
-    const WGpuImageCopyTexture *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
+void wgpu_command_encoder_copy_buffer_to_texture(WGpuCommandEncoder commandEncoder, const WGpuTexelCopyBufferInfo *source,
+    const WGpuTexelCopyBufferInfo *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
   assert(wgpu_is_command_encoder(commandEncoder));
   assert(source);
   assert(destination);
 
   WGPUCommandEncoder _commandEncoder = _wgpu_get_dawn<WGPUCommandEncoder>(commandEncoder);
 
-  WGPUImageCopyBuffer _source;
-  wgpuReadGpuImageCopyBuffer(source, _source);
+  WGPUTexelCopyBufferInfo _source;
+  wgpuReadGpuTexelCopyBufferInfo(source, _source);
 
-  WGPUImageCopyTexture _destination;
-  wgpuReadGpuImageCopyTexture(destination, _destination);
+  WGPUTexelCopyTextureInfo _destination;
+  wgpuReadGpuTexelCopyTextureInfo(destination, _destination);
 
   WGPUExtent3D copySize { copyWidth, copyHeight, copyDepthOrArrayLayers };
   wgpuCommandEncoderCopyBufferToTexture(_commandEncoder, &_source, &_destination, &copySize);
 }
 
-void wgpu_command_encoder_copy_texture_to_buffer(WGpuCommandEncoder commandEncoder, const WGpuImageCopyTexture *source,
-    const WGpuImageCopyBuffer *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
+void wgpu_command_encoder_copy_texture_to_buffer(WGpuCommandEncoder commandEncoder, const WGpuTexelCopyTextureInfo *source,
+    const WGpuTexelCopyBufferInfo *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
   assert(wgpu_is_command_encoder(commandEncoder));
   assert(source);
   assert(destination);
 
   WGPUCommandEncoder _commandEncoder = _wgpu_get_dawn<WGPUCommandEncoder>(commandEncoder);
 
-  WGPUImageCopyTexture _source;
-  wgpuReadGpuImageCopyTexture(source, _source);
+  WGPUTexelCopyTextureInfo _source;
+  wgpuReadGpuTexelCopyTextureInfo(source, _source);
 
-  WGPUImageCopyBuffer _destination;
-  wgpuReadGpuImageCopyBuffer(destination, _destination);
+  WGPUTexelCopyBufferInfo _destination;
+  wgpuReadGpuTexelCopyBufferInfo(destination, _destination);
 
   WGPUExtent3D copySize {copyWidth, copyHeight, copyDepthOrArrayLayers};
   wgpuCommandEncoderCopyTextureToBuffer(_commandEncoder, &_source, &_destination, &copySize);
 }
 
-void wgpu_command_encoder_copy_texture_to_texture(WGpuCommandEncoder commandEncoder, const WGpuImageCopyTexture *source,
-    const WGpuImageCopyTexture *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
+void wgpu_command_encoder_copy_texture_to_texture(WGpuCommandEncoder commandEncoder, const WGpuTexelCopyTextureInfo *source,
+    const WGpuTexelCopyTextureInfo *destination, uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
   assert(wgpu_is_command_encoder(commandEncoder));
   assert(source);
   assert(destination);
 
   WGPUCommandEncoder _commandEncoder = _wgpu_get_dawn<WGPUCommandEncoder>(commandEncoder);
 
-  WGPUImageCopyTexture _source;
-  wgpuReadGpuImageCopyTexture(source, _source);
+  WGPUTexelCopyTextureInfo _source;
+  wgpuReadGpuTexelCopyTextureInfo(source, _source);
 
-  WGPUImageCopyTexture _destination;
-  wgpuReadGpuImageCopyTexture(destination, _destination);
+  WGPUTexelCopyTextureInfo _destination;
+  wgpuReadGpuTexelCopyTextureInfo(destination, _destination);
 
   WGPUExtent3D copySize {copyWidth, copyHeight, copyDepthOrArrayLayers};
   wgpuCommandEncoderCopyTextureToTexture(_commandEncoder, &_source, &_destination, &copySize);
@@ -2504,15 +2531,15 @@ void wgpu_queue_write_buffer(WGpuQueue queue, WGpuBuffer buffer, double_int53_t 
   wgpuQueueWriteBuffer(_queue, _buffer, (uint64_t)bufferOffset, data, (size_t)size);
 }
 
-void wgpu_queue_write_texture(WGpuQueue queue, const WGpuImageCopyTexture *destination, const void *data, uint32_t bytesPerBlockRow,
+void wgpu_queue_write_texture(WGpuQueue queue, const WGpuTexelCopyTextureInfo *destination, const void *data, uint32_t bytesPerBlockRow,
     uint32_t blockRowsPerImage, uint32_t writeWidth, uint32_t writeHeight, uint32_t writeDepthOrArrayLayers) {
   assert(wgpu_is_queue(queue));
   assert(destination != nullptr);
   assert(data != nullptr);
 
   WGPUQueue _queue = _wgpu_get_dawn<WGPUQueue>(queue);
-  WGPUImageCopyTexture _destination = {};
-  wgpuReadGpuImageCopyTexture(destination, _destination);
+  WGPUTexelCopyTextureInfo _destination = {};
+  wgpuReadGpuTexelCopyTextureInfo(destination, _destination);
 
   WGPUTextureDataLayout dataLayout{ nullptr, 0, bytesPerBlockRow, blockRowsPerImage};
   WGPUExtent3D extents {writeWidth, writeHeight, writeDepthOrArrayLayers};
@@ -2520,7 +2547,7 @@ void wgpu_queue_write_texture(WGpuQueue queue, const WGpuImageCopyTexture *desti
   wgpuQueueWriteTexture(_queue, &_destination, data, bytesPerBlockRow * blockRowsPerImage, &dataLayout, &extents);
 }
 
-void wgpu_queue_copy_external_image_to_texture(WGpuQueue queue, const WGpuImageCopyExternalImage *source, const WGpuImageCopyTextureTagged *destination,
+void wgpu_queue_copy_external_image_to_texture(WGpuQueue queue, const WGpuCopyExternalImageSourceInfo *source, const WGpuCopyExternalImageDestInfo *destination,
     uint32_t copyWidth, uint32_t copyHeight, uint32_t copyDepthOrArrayLayers) {
   assert(wgpu_is_queue(queue));
   assert(source != nullptr);

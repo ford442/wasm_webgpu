@@ -139,6 +139,8 @@ const stringArrays = {
     "r8sint",
 
     // 16-bit formats
+    "r16unorm", // Supported with "texture-formats-tier1"
+    "r16snorm", // Supported with "texture-formats-tier1"
     "r16uint",
     "r16sint",
     "r16float",
@@ -151,6 +153,8 @@ const stringArrays = {
     "r32uint",
     "r32sint",
     "r32float",
+    "rg16unorm", // Supported with "texture-formats-tier1"
+    "rg16snorm", // Supported with "texture-formats-tier1"
     "rg16uint",
     "rg16sint",
     "rg16float",
@@ -171,6 +175,8 @@ const stringArrays = {
     "rg32uint",
     "rg32sint",
     "rg32float",
+    "rgba16unorm", // Supported with "texture-formats-tier1"
+    "rgba16snorm", // Supported with "texture-formats-tier1"
     "rgba16uint",
     "rgba16sint",
     "rgba16float",
@@ -252,22 +258,31 @@ const stringArrays = {
     "astc-12x12-unorm-srgb",
 
     // GPUVertexFormat types
+    "uint8",
     "uint8x2",
     "uint8x4",
+    "sint8",
     "sint8x2",
     "sint8x4",
+    "unorm8",
     "unorm8x2",
     "unorm8x4",
+    "snorm8",
     "snorm8x2",
     "snorm8x4",
+    "uint16",
     "uint16x2",
     "uint16x4",
+    "sint16",
     "sint16x2",
     "sint16x4",
+    "unorm16",
     "unorm16x2",
     "unorm16x4",
+    "snorm16",
     "snorm16x2",
     "snorm16x4",
+    "float16",
     "float16x2",
     "float16x4",
     "float32",
@@ -282,7 +297,8 @@ const stringArrays = {
     "sint32x2",
     "sint32x3",
     "sint32x4",
-    "unorm10-10-10-2"
+    "unorm10-10-10-2",
+    "unorm8x4-bgra"
     ],
 
   'wgpu32BitLimitNames': [
@@ -321,20 +337,28 @@ const stringArrays = {
     'maxBufferSize'],
 
   'wgpuFeatures': [
+    'core-features-and-limits',
     'depth-clip-control',
     'depth32float-stencil8',
     'texture-compression-bc',
     'texture-compression-bc-sliced-3d',
     'texture-compression-etc2',
     'texture-compression-astc',
+    'texture-compression-astc-sliced-3d',
     'timestamp-query',
     'indirect-first-instance',
     'shader-f16',
     'rg11b10ufloat-renderable',
     'bgra8unorm-storage',
     'float32-filterable',
+    'float32-blendable',
     'clip-distances',
-    'dual-source-blending'],
+    'dual-source-blending',
+    'subgroups',
+    'texture-formats-tier1',
+    'texture-formats-tier2',
+    'primitive-index',
+    'texture-component-swizzle'],
 
   '$GPUBlendFactors': [/*undefined*/,
     'zero',
